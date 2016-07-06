@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Chapter10</title>
+<style type="text/css">
+<!--
+.STYLE1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body>
+<h1>Assignment 10</h1>
+<h2>&nbsp;</h2>
+<h1><strong>Planning Documents</strong>:</h1>
+<h2>User Case: Maze Applet<br />
+  Primary Actor: user who wants to use a enhanced maze game with 20 rooms.<br />
+  Precondition: The user has access to the website in which the maze game is stored.<br />
+  Main Success Scenario:<br />
+  1.The user start the enhanced maze applet<br />
+  2.The user can use the arrow keys to move from room to room<br />
+3.The user stop the applet by closing the applet.</h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>Time Sheet:</h1>
+<table width="991" height="438" border="1" background="nyc (3).jpg">
+  <tr>
+    <td width="187" height="93"><h1 align="center" class="STYLE1">Date</h1></td>
+    <td width="220"><h1 align="center" class="STYLE1">Time</h1></td>
+    <td width="265"><h1 align="center" class="STYLE1"> Task</h1></td>
+    <td width="291"><h1 align="center"><span class="STYLE1"> Time Spent (hrs)</span></h1></td>
+  </tr>
+  <tr>
+    <td height="82"><h1 align="center" class="STYLE1">15-Nov-2014</h1></td>
+    <td><h1 align="center" class="STYLE1">9:00 AM</h1></td>
+    <td><h1 align="center" class="STYLE1">Read Text and Lecture</h1></td>
+    <td><h1 align="center" class="STYLE1">2.0</h1></td>
+  </tr>
+  <tr>
+    <td height="87"><h1 align="center" class="STYLE1">15-Nov-2014</h1></td>
+    <td><h1 align="center" class="STYLE1">2:00 PM</h1></td>
+    <td><h1 align="center" class="STYLE1">Plan code</h1></td>
+    <td><h1 align="center" class="STYLE1">4.0</h1></td>
+  </tr>
+  <tr>
+    <td height="82"><h1 align="center" class="STYLE1">16-Nov-2014</h1></td>
+    <td><h1 align="center" class="STYLE1">9:00 AM</h1></td>
+    <td><h1 align="center" class="STYLE1">Write HTML and Applet container</h1></td>
+    <td><h1 align="center" class="STYLE1">2.0</h1></td>
+  </tr>
+  <tr>
+    <td height="80"><h1 align="center" class="STYLE1">16-Nov-2014</h1></td>
+    <td><h1 align="center" class="STYLE1">3:00 PM</h1></td>
+    <td><h1 align="center" class="STYLE1">Install and test code</h1></td>
+    <td><h1 align="center" class="STYLE1">4.0</h1></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h1>Applet:</h1>
+<p>
+  <applet archive="maze.jar" code="MazeApplet" codebase="http://web.njit.edu/~cz284/cs602/chapter10" width="339" height="300">
+  </applet>
+</p>
+<h1>&nbsp;</h1>
+<h1>Code:</h1>
+<p> public void setCurrentRoom(int roomNumber) { <br />
+Room room = findRoom(roomNumber);<br />
+setCurrentRoom(room);<br />
+}</p>
+<p> public void setCurrentRoom(Room room) { <br />
+  if (room != curRoom) { <br />
+  if (curRoom != null) { <br />
+  curRoom.setInRoom(false);<br />
+  }<br />
+  if (room != null) { <br />
+  room.setInRoom(true);<br />
+  curRoom = room;<br />
+  }<br />
+  if (view != null) { <br />
+  view.repaint();<br />
+  }<br />
+  }<br />
+  }</p>
+<p> public Room getCurrentRoom() {<br />
+  return curRoom; <br />
+  }<br />
+  <br />
+  public void move(Direction direction) {<br />
+  if (curRoom != null) { <br />
+  MapSite side = curRoom.getSide(direction); <br />
+  if (side != null) {<br />
+  side.enter(this); <br />
+  }<br />
+  <br />
+  }<br />
+  }<br />
+  <br />
+  public void draw(Graphics g) { <br />
+  if (dim == null) { <br />
+  calculateDimension(); <br />
+  } <br />
+  int dx = MARGIN + -offset.x * ROOM_SIZE; <br />
+  int dy = MARGIN + -offset.y * ROOM_SIZE; </p>
+<p> if (debug) { <br />
+  System.out.println(&quot;Maze.Draw(): offset=&quot; + offset.x + &quot;, &quot; + offset.y);<br />
+  }</p>
+<p> // draw rooms first<br />
+  for (int i = 0; i &lt; rooms.size(); i++) { <br />
+  Room room = (Room) rooms.get(i);<br />
+  if (room != null) { <br />
+  Point location = room.getLocation(); <br />
+  if (location != null) { </p>
+<p> if (debug) { <br />
+  System.out.println(&quot;Maze.Draw(): Room &quot; + room.getRoomNumber() + <br />
+  &quot; location: &quot; + location.x + &quot;, &quot; + location.y); <br />
+  }</p>
+<p> room.draw(g,<br />
+  dx + location.x * ROOM_SIZE,<br />
+  dy + location.y * ROOM_SIZE, <br />
+  ROOM_SIZE, ROOM_SIZE);<br />
+  }<br />
+  } <br />
+  }<br />
+  <br />
+  // draw walls and doors<br />
+  for (int i = 0; i &lt; rooms.size(); i++) { <br />
+  Room room = (Room) rooms.get(i);<br />
+  if (room != null) { <br />
+  Point location = room.getLocation(); <br />
+  if (location != null) {<br />
+  for (Direction dir = Direction.first(); dir != null; dir = dir.next()) { <br />
+  MapSite side = room.getSide(dir); <br />
+  if (side != null) { <br />
+  if (dir == Direction.NORTH) {<br />
+  side.draw(g,<br />
+  dx + location.x * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  dy + location.y * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  ROOM_SIZE + WALL_THICKNESS, <br />
+  WALL_THICKNESS); <br />
+  } else if (dir == Direction.EAST) { <br />
+  side.draw(g,<br />
+  dx + location.x * ROOM_SIZE + ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  dy + location.y * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  WALL_THICKNESS, <br />
+  ROOM_SIZE + WALL_THICKNESS); <br />
+  } else if (dir == Direction.SOUTH) { <br />
+  side.draw(g,<br />
+  dx + location.x * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  dy + location.y * ROOM_SIZE + ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  ROOM_SIZE + WALL_THICKNESS, <br />
+  WALL_THICKNESS); <br />
+  } else {<br />
+  side.draw(g,<br />
+  dx + location.x * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  dy + location.y * ROOM_SIZE - WALL_THICKNESS / 2,<br />
+  WALL_THICKNESS, <br />
+  ROOM_SIZE + WALL_THICKNESS); <br />
+  }<br />
+  }<br />
+  }<br />
+  }<br />
+  } <br />
+  }<br />
+  }</p>
+<p> public Dimension getDimension() { <br />
+  if (dim == null) { <br />
+  calculateDimension(); <br />
+  }<br />
+  return dim; <br />
+  }</p>
+<p> protected void calculateDimension() {<br />
+  if (rooms.size() &gt; 0) { <br />
+  int minX = 0, maxX = 0, minY = 0, maxY = 0; <br />
+  Room room = (Room) rooms.get(0); <br />
+  room.setLocation(new Point(0, 0)); <br />
+  boolean changed = true; <br />
+  while (changed &amp;&amp; !isAllRoomsSet()) { <br />
+  changed = false; <br />
+  for (int i = 0; i &lt; rooms.size(); i++) { <br />
+  room = (Room) rooms.get(i);<br />
+  Point location = room.getLocation();<br />
+  if (location != null) {<br />
+  for (Direction dir = Direction.first(); dir != null; dir = dir.next()) { <br />
+  MapSite side = room.getSide(dir); <br />
+  if (side instanceof Door) { <br />
+  Door door = (Door) side;<br />
+  Room otherSide = door.otherSideFrom(room); <br />
+  if (otherSide != null &amp;&amp; <br />
+  otherSide.getLocation() == null) { <br />
+  if (dir == Direction.NORTH) { <br />
+  otherSide.setLocation(new Point(location.x, location.y - 1)); <br />
+  minY = Math.min(minY, location.y - 1);<br />
+  } else if (dir == Direction.EAST) { <br />
+  otherSide.setLocation(new Point(location.x + 1, location.y)); <br />
+  maxX = Math.max(maxX, location.x + 1);<br />
+  } else if (dir == Direction.SOUTH) { <br />
+  otherSide.setLocation(new Point(location.x, location.y + 1)); <br />
+  maxY = Math.max(maxY, location.y + 1);<br />
+  } else {<br />
+  otherSide.setLocation(new Point(location.x - 1, location.y)); <br />
+  minX = Math.min(minX, location.x - 1);<br />
+  }<br />
+  changed = true; <br />
+  }<br />
+  }<br />
+  }<br />
+  }<br />
+  }<br />
+  }<br />
+  offset = new Point(minX, minY); <br />
+  dim = new Dimension(maxX - minX + 1, maxY - minY + 1); <br />
+  } else { <br />
+  offset = new Point(0, 0); <br />
+  dim = new Dimension(0, 0); <br />
+  }<br />
+  }</p>
+<p> protected boolean isAllRoomsSet() { <br />
+  for (int i = 0; i &lt; rooms.size(); i++) { <br />
+  Room room = (Room) rooms.get(i);<br />
+  if (room.getLocation() == null) { <br />
+  return false; <br />
+  }<br />
+  }<br />
+  return true; <br />
+  }<br />
+  <br />
+  /**<br />
+  * Return the last room created for the maze<br />
+  * <br />
+  * @return  room number of room last created<br />
+  */<br />
+  protected int getLastRoomNumber ()<br />
+  {<br />
+  return lastRoomNumber;<br />
+  }<br />
+  <br />
+  /**<br />
+  * Set whether the client completed the game<br />
+  * <br />
+  * @param val - true/false if the client completed the game<br />
+  */<br />
+  protected void setGameComplete(boolean val){<br />
+  gameComplete = val;<br />
+  }<br />
+  <br />
+  /**<br />
+  * Return if the game was already completed by the user<br />
+  * <br />
+  * @return  true/false if the client completed the game<br />
+  */<br />
+  protected boolean isGameComplete () {<br />
+  return gameComplete;<br />
+  }<br />
+  <br />
+  protected void setView(Component view) { <br />
+  this.view = view; <br />
+  }</p>
+<p> protected void doCommand(Command command) { <br />
+  if (command != null) { <br />
+  moves.push(command); <br />
+  command.execute(); <br />
+  } <br />
+  }</p>
+<p> protected void undoCommand() { <br />
+  if (!moves.empty()) { <br />
+  Object top = moves.peek(); // looking at the top element without popping it<br />
+  if (top instanceof UndoableCommand) { <br />
+  moves.pop();<br />
+  UndoableCommand undoableCommand = (UndoableCommand) top; <br />
+  undoableCommand.undo();<br />
+  } <br />
+  }<br />
+  }<br />
+  <br />
+  protected List rooms = new ArrayList(); <br />
+  protected Dimension dim; <br />
+  protected Point offset; <br />
+  protected Room curRoom = null; <br />
+  protected Stack moves = new Stack(); <br />
+  protected int lastRoomNumber = 0;<br />
+  protected boolean gameComplete = false;<br />
+  <br />
+  protected Component view; </p>
+<p> private static final int ROOM_SIZE = 40;<br />
+  private static final int WALL_THICKNESS = 6;<br />
+  private static final int MARGIN = 20; </p>
+<p> private static final boolean debug = true; </p>
+<p> public static class MazePanel extends JPanel { <br />
+    <br />
+  public MazePanel(Maze maze) { <br />
+  this.maze = maze; <br />
+  if (maze != null) { <br />
+  maze.setView(this); <br />
+  Dimension d = maze.getDimension();<br />
+  if (d != null) { <br />
+  dim = new Dimension(d.width * ROOM_SIZE + 2 * MARGIN, <br />
+  d.height * ROOM_SIZE + 2 * MARGIN);<br />
+  }<br />
+  addKeyListener(new MazeKeyListener(maze));<br />
+  }<br />
+  }</p>
+<p> public void paint(Graphics g) { <br />
+  Dimension d = getSize();<br />
+  g.setColor(Color.white);<br />
+  g.fillRect(0, 0, d.width, d.height); <br />
+  if (maze != null) { <br />
+  maze.draw(g); <br />
+  }<br />
+  requestFocus();<br />
+  }</p>
+<p> public boolean isFocusable() { // 1.4<br />
+  return true; <br />
+  }</p>
+<p> public Dimension getPreferredSize() { <br />
+  return dim; <br />
+  }<br />
+  <br />
+  public Dimension getMinimumSize() { <br />
+  return dim;<br />
+  }</p>
+<p> private Maze maze; <br />
+  private Dimension dim; <br />
+  <br />
+  }</p>
+<p> static class MazeKeyListener extends KeyAdapter { </p>
+<p> MazeKeyListener(Maze maze) {<br />
+  this.maze = maze; <br />
+  this.lastDirection=Direction.NORTH;<br />
+  }</p>
+<p> public void keyPressed(KeyEvent e) {<br />
+  System.out.println(&quot;Key pressed&quot;);<br />
+  Command command = null; <br />
+  int code = e.getKeyCode();<br />
+  switch (code) { <br />
+  case KeyEvent.VK_UP:<br />
+  System.out.println(&quot;Up key&quot;);<br />
+  lastDirection = Direction.NORTH;<br />
+  command = new MazeMoveCommand(maze, Direction.NORTH);<br />
+  break; <br />
+  case KeyEvent.VK_DOWN:<br />
+  System.out.println(&quot;Down key&quot;);<br />
+  lastDirection = Direction.SOUTH;<br />
+  command = new MazeMoveCommand(maze, Direction.SOUTH);<br />
+  maze.move(Direction.SOUTH); <br />
+  break; <br />
+  case KeyEvent.VK_LEFT:<br />
+  lastDirection=Direction.WEST;<br />
+  System.out.println(&quot;Left key&quot;);<br />
+  command = new MazeMoveCommand(maze, Direction.WEST);<br />
+  break; <br />
+  case KeyEvent.VK_RIGHT:<br />
+  lastDirection =Direction.EAST;<br />
+  System.out.println(&quot;Right key&quot;);<br />
+  command = new MazeMoveCommand(maze, Direction.EAST);<br />
+  break; <br />
+  <br />
+  //Added code below to handle the Enter Key pressed event<br />
+  case KeyEvent.VK_ENTER:<br />
+  System.out.println(&quot;Enter key&quot;);<br />
+  openDoor ();<br />
+  break;<br />
+  default:<br />
+  System.out.println(&quot;Key press ignored&quot;);<br />
+  } <br />
+  if (command != null) {<br />
+  maze.doCommand(command);<br />
+  }<br />
+  } </p>
+<p> */<br />
+  public void openDoor() <br />
+  {<br />
+  Room curRoom = maze.getCurrentRoom();<br />
+  if(curRoom != null) <br />
+  {<br />
+  MapSite side = curRoom.getSide(lastDirection);<br />
+  if(side instanceof Door) <br />
+  {<br />
+  Door door = (Door) side;<br />
+  if(door.isOpen() == false) <br />
+  {<br />
+  //      open.play();<br />
+  door.setOpen(true); <br />
+  maze.view.repaint();<br />
+  return;<br />
+  } <br />
+  }<br />
+  <br />
+  //    ohno.play();<br />
+  //maze.view.repaint();<br />
+  }<br />
+  }<br />
+  <br />
+  Maze maze; <br />
+  Direction lastDirection;<br />
+  }</p>
+<p>}</p>
+<p>&nbsp;</p>
+<h1>Screen Shoots: </h1>
+<p> <img src="screen1.jpg" width="243" height="312" />  <img src="screen2.jpg" width="225" height="305" /> <img src="screen3.jpg" width="235" height="319" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

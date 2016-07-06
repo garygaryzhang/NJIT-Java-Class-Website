@@ -1,0 +1,948 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>chapter8</title></head>
+
+<body>
+<h1>Assignment8.5</h1>
+<p>&nbsp; </p>
+<h2>Planning Documents:</h2>
+<p>&nbsp;</p>
+<p><strong>Scope</strong>: Calculator Applet having buttons for number (0-9),operators (+ - * / =) and text field to display the result</p>
+<p><strong>Level</strong>: User Goal</p>
+<p><strong>Primary Actor</strong>: End User who wants use a calculator within a webpage.</p>
+<p><strong>Preconditions</strong>: Eclipse environment to write the code and run it properly.</p>
+<p><strong>Success Guarantee - Post Condition:</strong></p>
+<p>1.Calculator runs successfully in browser</p>
+<p>2.Calculator returns addition, subtraction, multiplication and division calculations correctly.</p>
+<p><strong>Main Success Scenario (or Basic Flow):</strong></p>
+<p>1.User opens the page where the applet resides.</p>
+<p>2.Applet displays a calculator with buttons for all numbers from 0 to 9 and operator signs +, -, *, /, =.</p>
+<p>3.Applet initializes the applet and present a GUI of the calculator.</p>
+<p>4.User receives back from the applet a computed result for the specified expression.   </p>
+<p>&nbsp;</p>
+<h2>Time Sheet:</h2>
+<p>&nbsp;</p>
+<table width="727" height="392" border="1">
+  <tr>
+    <td width="134" height="68"><div align="center">
+      <h1>Date</h1>
+    </div></td>
+    <td width="187"><h1 align="center">Time</h1></td>
+    <td width="197"><div align="center">
+      <h1>Task</h1>
+    </div></td>
+    <td width="181"><div align="center">
+      <h1>Time Spent (hrs) </h1>
+    </div></td>
+  </tr>
+  <tr>
+    <td height="79"><div align="center">
+      <h2>2-Nov-2014</h2>
+    </div></td>
+    <td><div align="center">
+      <h2>10:00 AM </h2>
+    </div></td>
+    <td><h2 align="center">Read Textbook and Lecture</h2></td>
+    <td><h2 align="center"><strong>4</strong></h2></td>
+  </tr>
+  <tr>
+    <td height="69"><div align="center">
+      <h2>2-Nov-2014</h2>
+    </div></td>
+    <td><div align="center">
+      <h2>6:00 PM </h2>
+    </div></td>
+    <td><h2 align="center">Plan code</h2></td>
+    <td><h2 align="center"><strong>5</strong></h2></td>
+  </tr>
+  <tr>
+    <td height="81"><div align="center">
+      <h2>3-Nov-2014</h2>
+    </div></td>
+    <td><div align="center">
+      <h2>9:00 AM </h2>
+    </div></td>
+    <td><h2 align="center">Write HTML and Applet container</h2></td>
+    <td><h2 align="center"><strong>6</strong></h2></td>
+  </tr>
+  <tr>
+    <td height="81"><div align="center">
+      <h2>3-Nov-2014</h2>
+    </div></td>
+    <td><div align="center">
+      <h2>5:00 PM </h2>
+    </div></td>
+    <td><h2 align="center">Install and test code</h2></td>
+    <td><h2 align="center"><strong>2</strong></h2></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2>Applet :</h2>
+<p>&nbsp;</p>
+<p>
+  <applet code="chapter8.class"   width="604" height="344">
+  </applet>
+</p>
+<p>&nbsp;</p>
+<h2>Code:</h2>
+<p>import java.awt.*;<br />
+import javax.swing.JApplet;<br />
+import javax.swing.*;<br />
+import java.awt.event.*;<br />
+import java.lang.Exception;</p>
+<p> public class chapter8 extends JApplet implements ActionListener{<br />
+  // Variables<br />
+  final int MAX_INPUT_LENGTH = 20;<br />
+  final int INPUT_MODE = 0;<br />
+  final int RESULT_MODE = 1;<br />
+  final int ERROR_MODE = 2;<br />
+  int displayMode;<br />
+  <br />
+  boolean clearOnNextDigit, percent;<br />
+  double lastNumber;<br />
+  String lastOperator;<br />
+  <br />
+  Font f12 = new Font(&quot;Times New Roman&quot;, 1, 14);<br />
+  <br />
+  private JLabel jlbOutput = new JLabel(&quot;0&quot;);<br />
+  <br />
+  <br />
+  //buttons<br />
+  private JButton jbn0 = new JButton(&quot;0&quot;);<br />
+  private JButton jbn1 = new JButton(&quot;1&quot;);<br />
+  private JButton jbn2 = new JButton(&quot;2&quot;);<br />
+  private JButton jbn3 = new JButton(&quot;3&quot;);<br />
+  private JButton jbn4 = new JButton(&quot;4&quot;);<br />
+  private JButton jbn5 = new JButton(&quot;5&quot;);<br />
+  private JButton jbn6 = new JButton(&quot;6&quot;);<br />
+  private JButton jbn7 = new JButton(&quot;7&quot;);<br />
+  private JButton jbn8 = new JButton(&quot;8&quot;);<br />
+  private JButton jbn9 = new JButton(&quot;9&quot;);<br />
+  <br />
+  private JButton jbnpm = new JButton(&quot;+/-&quot;);<br />
+  private JButton jbnp = new JButton(&quot;.&quot;);<br />
+  private JButton jbneq = new JButton(&quot;=&quot;);<br />
+  private JButton jbndv = new JButton(&quot;/&quot;);<br />
+  private JButton jbnml = new JButton(&quot;*&quot;);<br />
+  private JButton jbnmn = new JButton(&quot;-&quot;);<br />
+  private JButton jbnps = new JButton(&quot;+&quot;);<br />
+  private JButton jbnsq = new JButton(&quot;sqrt&quot;);<br />
+  private JButton jbnxv = new JButton(&quot;1/x&quot;);<br />
+  private JButton jbnpr = new JButton(&quot;%&quot;);<br />
+  <br />
+  private JButton jbnbs = new JButton(&quot;Backspace&quot;);<br />
+  private JButton jbnce = new JButton(&quot; CE &quot;);<br />
+  private JButton jbnc  = new JButton(&quot;C&quot;);<br />
+  <br />
+  <br />
+  public void init(){<br />
+  // set up button event handler and buttons</p>
+<p> <br />
+  JPanel jplView = new JPanel();<br />
+  <br />
+  //jlbOutput = new JLabel(&quot;0&quot;);<br />
+  jlbOutput.setHorizontalTextPosition(JLabel.RIGHT);<br />
+  jlbOutput.setBackground(Color.WHITE);<br />
+  jlbOutput.setOpaque(true);<br />
+  <br />
+  <br />
+  <br />
+  jplView.add(jlbOutput);<br />
+</p>
+<p> JPanel jplBackSpace = new JPanel();<br />
+  jplBackSpace.setLayout(new GridLayout(1, 1, 2, 2));<br />
+  jplBackSpace.add(jbnbs);<br />
+  <br />
+  JPanel jplControl = new JPanel();<br />
+  jplControl.setLayout(new GridLayout(1, 2, 2 ,2));</p>
+<p> jplControl.add(jbnce);<br />
+  jplControl.add(jbnc);</p>
+<p> //Set all Numbered JButton's to Blue, and all others to Red<br />
+  jbn0.setFont(f12);<br />
+  jbn0.setForeground(Color.black);<br />
+  jbn1.setFont(f12);<br />
+  jbn1.setForeground(Color.black);<br />
+  jbn2.setFont(f12);<br />
+  jbn2.setForeground(Color.black);<br />
+  jbn3.setFont(f12);<br />
+  jbn3.setForeground(Color.black);<br />
+  jbn4.setFont(f12);<br />
+  jbn4.setForeground(Color.black);<br />
+  jbn5.setFont(f12);<br />
+  jbn5.setForeground(Color.black);<br />
+  jbn6.setFont(f12);<br />
+  jbn6.setForeground(Color.black);<br />
+  jbn7.setFont(f12);<br />
+  jbn7.setForeground(Color.black);<br />
+  jbn8.setFont(f12);<br />
+  jbn8.setForeground(Color.black);<br />
+  jbn9.setFont(f12);<br />
+  jbn9.setForeground(Color.black);<br />
+  <br />
+  jbnpm.setFont(f12);<br />
+  jbnpm.setForeground(Color.blue);<br />
+  jbnp.setFont(f12);<br />
+  jbnp.setForeground(Color.blue);<br />
+  jbneq.setFont(f12);<br />
+  jbneq.setForeground(Color.blue);<br />
+  jbndv.setFont(f12);<br />
+  jbndv.setForeground(Color.blue);<br />
+  jbnml.setFont(f12);<br />
+  jbnml.setForeground(Color.blue);<br />
+  jbnmn.setFont(f12);<br />
+  jbnmn.setForeground(Color.blue);<br />
+  jbnps.setFont(f12);<br />
+  jbnps.setForeground(Color.blue);<br />
+  jbnsq.setFont(f12);<br />
+  jbnsq.setForeground(Color.blue);<br />
+  jbnxv.setFont(f12);<br />
+  jbnxv.setForeground(Color.blue);<br />
+  jbnpr.setFont(f12);<br />
+  jbnpr.setForeground(Color.blue);<br />
+  jbnbs.setFont(f12);<br />
+  jbnbs.setForeground(Color.blue);<br />
+  jbnce.setFont(f12);<br />
+  jbnce.setForeground(Color.blue);<br />
+  jbnc.setFont(f12);<br />
+  jbnc.setForeground(Color.blue);<br />
+  <br />
+  <br />
+  // Set panel layout manager for a 4 by 5 grid<br />
+  JPanel jplButtons = new JPanel(new GridLayout(4,5));<br />
+  //Add buttons to keypad panel starting at top left<br />
+  // Row One<br />
+  jplButtons.add(jbn7);<br />
+  jplButtons.add(jbn8);<br />
+  jplButtons.add(jbn9);<br />
+  <br />
+  // add button / and sqrt<br />
+  jplButtons.add(jbndv);<br />
+  jplButtons.add(jbnsq);</p>
+<p> <br />
+  // Row Two<br />
+  jplButtons.add(jbn4);<br />
+  jplButtons.add(jbn5);<br />
+  jplButtons.add(jbn6);<br />
+  <br />
+  <br />
+  // add button * and 1/x<br />
+  jplButtons.add(jbnml);<br />
+  jplButtons.add(jbnxv);</p>
+<p> <br />
+  // Row Three<br />
+  jplButtons.add(jbn1);<br />
+  jplButtons.add(jbn2);<br />
+  jplButtons.add(jbn3);<br />
+  <br />
+  //adds button - and %<br />
+  jplButtons.add(jbnmn);<br />
+  jplButtons.add(jbnpr);<br />
+  <br />
+  <br />
+  <br />
+  //Row Four<br />
+  // add 0, +/-, ., +, and = <br />
+  jplButtons.add(jbn0);<br />
+  jplButtons.add(jbnpm);<br />
+  jplButtons.add(jbnp);<br />
+  jplButtons.add(jbnps);<br />
+  jplButtons.add(jbneq);</p>
+<p> <br />
+  add(jplBackSpace, BorderLayout.WEST);<br />
+  add(jplControl, BorderLayout.EAST);<br />
+  add(jplButtons, BorderLayout.SOUTH);<br />
+  add(jplView, BorderLayout.NORTH);<br />
+  <br />
+  //activate ActionListener<br />
+  jbn0.addActionListener(this);<br />
+  jbn1.addActionListener(this);<br />
+  jbn2.addActionListener(this);<br />
+  jbn3.addActionListener(this);<br />
+  jbn4.addActionListener(this);<br />
+  jbn5.addActionListener(this);<br />
+  jbn6.addActionListener(this);<br />
+  jbn7.addActionListener(this);<br />
+  jbn8.addActionListener(this);<br />
+  jbn9.addActionListener(this);<br />
+  jbnpm.addActionListener(this);<br />
+  jbnp.addActionListener(this);<br />
+  jbneq.addActionListener(this);<br />
+  jbndv.addActionListener(this);<br />
+  jbnml.addActionListener(this);<br />
+  jbnmn.addActionListener(this);<br />
+  jbnps.addActionListener(this);<br />
+  jbnsq.addActionListener(this);<br />
+  jbnxv.addActionListener(this);<br />
+  jbnpr.addActionListener(this);<br />
+  jbnbs.addActionListener(this);<br />
+  jbnce.addActionListener(this);<br />
+  jbnc.addActionListener(this);</p>
+<p> clearAll(); <br />
+  }//end init()</p>
+<p> <br />
+    <br />
+  public void actionPerformed(ActionEvent e) {<br />
+  <br />
+  if(e.getSource()==jbn0){<br />
+  addDigitToDisplay(0);<br />
+  } else if(e.getSource()==jbn1){<br />
+  addDigitToDisplay(1);<br />
+  } else if(e.getSource()==jbn2){<br />
+  addDigitToDisplay(2);<br />
+  }else if(e.getSource()==jbn3){<br />
+  addDigitToDisplay(3);<br />
+  }else if(e.getSource()==jbn4){<br />
+  addDigitToDisplay(4);<br />
+  }else if(e.getSource()==jbn5){<br />
+  addDigitToDisplay(5);<br />
+  }else if(e.getSource()==jbn6){<br />
+  addDigitToDisplay(6);<br />
+  }else if(e.getSource()==jbn7){<br />
+  addDigitToDisplay(7);<br />
+  }else if(e.getSource()==jbn8){<br />
+  addDigitToDisplay(8);<br />
+  }else if(e.getSource()==jbn9){<br />
+  addDigitToDisplay(9);<br />
+  }else if(e.getSource()==jbnpm){<br />
+  processSignChange();<br />
+  }else if(e.getSource()==jbnp){<br />
+  addDecimalPoint();<br />
+  }else if(e.getSource()==jbneq){<br />
+  processEquals();<br />
+  }else if(e.getSource()==jbndv){<br />
+  processOperator(&quot;/&quot;);<br />
+  }else if(e.getSource()==jbnml){<br />
+  processOperator(&quot;*&quot;);<br />
+  }else if(e.getSource()==jbnmn){<br />
+  processOperator(&quot;-&quot;);<br />
+  }else if(e.getSource()==jbnps){<br />
+  processOperator(&quot;+&quot;);<br />
+  }else if(e.getSource()==jbnsq){<br />
+  doSqrt();<br />
+  }else if(e.getSource()==jbnxv){<br />
+  doXInv();<br />
+  }else if(e.getSource()==jbnpr){<br />
+  doPercent();<br />
+  }else if(e.getSource()==jbnbs){<br />
+  doBackspace();<br />
+  }else if(e.getSource()==jbnce){<br />
+  clearExisting();<br />
+  }else{ // if(e.getSource()==jbnc)<br />
+  clearAll();<br />
+  } <br />
+  <br />
+  }//end actionPerformed<br />
+  <br />
+  private void doPercent(){<br />
+  double result = 0;<br />
+  if (displayMode != ERROR_MODE){<br />
+  try  {<br />
+  result = getNumberInDisplay() / 100;<br />
+  displayResult(result);<br />
+  }</p>
+<p> catch(Exception ex)  {<br />
+  displayError(&quot;Invalid input for function!&quot;);<br />
+  displayMode = ERROR_MODE;<br />
+  }<br />
+  }<br />
+  }<br />
+  <br />
+  private void doXInv(){<br />
+  double result = 0;<br />
+  if (displayMode != ERROR_MODE){<br />
+  try<br />
+  {<br />
+  if (getNumberInDisplay() == 0)<br />
+  displayError(&quot;Cannot divide by zero!&quot;);</p>
+<p> result = 1 / getNumberInDisplay();<br />
+  displayResult(result);<br />
+  }<br />
+  <br />
+  catch(Exception ex)  {<br />
+  displayError(&quot;Cannot divide by zero!&quot;);<br />
+  displayMode = ERROR_MODE;<br />
+  }<br />
+  }<br />
+  }</p>
+<p> private void doSqrt(){<br />
+  double result = 0;<br />
+  if (displayMode != ERROR_MODE)<br />
+  {<br />
+  try<br />
+  {<br />
+  if (getDisplayString().indexOf(&quot;-&quot;) == 0)<br />
+  displayError(&quot;Invalid input for function!&quot;);</p>
+<p> result = Math.sqrt(getNumberInDisplay());<br />
+  displayResult(result);<br />
+  }</p>
+<p> catch(Exception ex)<br />
+  {<br />
+  displayError(&quot;Invalid input for function!&quot;);<br />
+  displayMode = ERROR_MODE;<br />
+  }<br />
+  } <br />
+  }</p>
+<p> private void doBackspace(){<br />
+  if (displayMode != ERROR_MODE){<br />
+  setDisplayString(getDisplayString().substring(0,<br />
+  getDisplayString().length() - 1));<br />
+  <br />
+  if (getDisplayString().length() &lt; 1)<br />
+  setDisplayString(&quot;0&quot;);<br />
+  } <br />
+  }</p>
+<p> private void setDisplayString(String s){<br />
+  jlbOutput.setText(s);<br />
+  }</p>
+<p> private String getDisplayString (){<br />
+  return jlbOutput.getText();<br />
+  }</p>
+<p> private void addDigitToDisplay(int digit){<br />
+  if (clearOnNextDigit)<br />
+  setDisplayString(&quot;&quot;);</p>
+<p> String inputString = getDisplayString();<br />
+    <br />
+  if (inputString.indexOf(&quot;0&quot;) == 0){<br />
+  inputString = inputString.substring(1);<br />
+  }</p>
+<p> if ((!inputString.equals(&quot;0&quot;) || digit &gt; 0) <br />
+  &amp;&amp; inputString.length() &lt; MAX_INPUT_LENGTH){<br />
+  setDisplayString(inputString + digit);<br />
+  }<br />
+</p>
+<p> displayMode = INPUT_MODE;<br />
+  clearOnNextDigit = false;<br />
+  }//end addDigitToDisplay</p>
+<p> private void addDecimalPoint(){<br />
+  displayMode = INPUT_MODE;</p>
+<p> if (clearOnNextDigit)<br />
+  setDisplayString(&quot;&quot;);</p>
+<p> String inputString = getDisplayString();<br />
+    <br />
+  // If the input string already contains a decimal point, don't<br />
+  //  do anything to it.<br />
+  if (inputString.indexOf(&quot;.&quot;) &lt; 0)<br />
+  setDisplayString(new String(inputString + &quot;.&quot;));<br />
+  }</p>
+<p> private void processSignChange(){<br />
+  if (displayMode == INPUT_MODE)<br />
+  {<br />
+  String input = getDisplayString();</p>
+<p> if (input.length() &gt; 0 &amp;&amp; !input.equals(&quot;0&quot;))<br />
+  {<br />
+  if (input.indexOf(&quot;-&quot;) == 0)<br />
+  setDisplayString(input.substring(1));</p>
+<p> else<br />
+  setDisplayString(&quot;-&quot; + input);<br />
+  }<br />
+  <br />
+  }</p>
+<p> else if (displayMode == RESULT_MODE)<br />
+  {<br />
+  double numberInDisplay = getNumberInDisplay();<br />
+  <br />
+  if (numberInDisplay != 0)<br />
+  displayResult(-numberInDisplay);<br />
+  }<br />
+  }//end processSignChange</p>
+<p> private void clearAll()  {<br />
+  setDisplayString(&quot;0&quot;);<br />
+  lastOperator = &quot;0&quot;;<br />
+  lastNumber = 0;<br />
+  displayMode = INPUT_MODE;<br />
+  clearOnNextDigit = true;<br />
+  }//end clearAll</p>
+<p> private void clearExisting(){<br />
+  setDisplayString(&quot;0&quot;);<br />
+  clearOnNextDigit = true;<br />
+  displayMode = INPUT_MODE;<br />
+  }//end clearExisting</p>
+<p> private double getNumberInDisplay()  {<br />
+  String input = jlbOutput.getText();<br />
+  return Double.parseDouble(input);<br />
+  } //end getNumberInDisplay</p>
+<p> private void processOperator(String op) {<br />
+  if (displayMode != ERROR_MODE)<br />
+  {<br />
+  double numberInDisplay = getNumberInDisplay();</p>
+<p> if (!lastOperator.equals(&quot;0&quot;)) <br />
+  {<br />
+  try<br />
+  {<br />
+  double result = processLastOperator();<br />
+  displayResult(result);<br />
+  lastNumber = result;<br />
+  }</p>
+<p> catch (DivideByZeroException e)<br />
+  {<br />
+  }<br />
+  }<br />
+  <br />
+  else<br />
+  {<br />
+  lastNumber = numberInDisplay;<br />
+  }<br />
+  <br />
+  clearOnNextDigit = true;<br />
+  lastOperator = op;<br />
+  }<br />
+  }//end processOperator</p>
+<p> private void processEquals(){<br />
+  double result = 0;</p>
+<p> if (displayMode != ERROR_MODE){<br />
+  try <br />
+  {<br />
+  result = processLastOperator();<br />
+  displayResult(result);<br />
+  }<br />
+  <br />
+  catch (DivideByZeroException e)  {<br />
+  displayError(&quot;Cannot divide by zero!&quot;);<br />
+  }</p>
+<p> lastOperator = &quot;0&quot;;<br />
+  }<br />
+  }//end processEquals</p>
+<p> private double processLastOperator() throws DivideByZeroException {<br />
+  double result = 0;<br />
+  double numberInDisplay = getNumberInDisplay();</p>
+<p> if (lastOperator.equals(&quot;/&quot;))<br />
+  {<br />
+  if (numberInDisplay == 0)<br />
+  throw (new DivideByZeroException());</p>
+<p> result = lastNumber / numberInDisplay;<br />
+  }<br />
+  <br />
+  if (lastOperator.equals(&quot;*&quot;))<br />
+  result = lastNumber * numberInDisplay;</p>
+<p> if (lastOperator.equals(&quot;-&quot;))<br />
+  result = lastNumber - numberInDisplay;</p>
+<p> if (lastOperator.equals(&quot;+&quot;))<br />
+  result = lastNumber + numberInDisplay;</p>
+<p> return result;<br />
+  }//end processLastOperator</p>
+<p> private void displayResult(double result){<br />
+  setDisplayString(Double.toString(result));<br />
+  lastNumber = result;<br />
+  displayMode = RESULT_MODE;<br />
+  clearOnNextDigit = true;<br />
+  }//end displayResult</p>
+<p> private void displayError(String errorMessage){<br />
+  setDisplayString(errorMessage);<br />
+  lastNumber = 0;<br />
+  displayMode = ERROR_MODE;<br />
+  clearOnNextDigit = true;<br />
+  }//end displayError<br />
+  <br />
+</p>
+<p> <br />
+  }//End class CalculatorApp</p>
+<p> class DivideByZeroException extends Exception{<br />
+  public DivideByZeroException()<br />
+  {<br />
+  super();<br />
+  }<br />
+  <br />
+  public DivideByZeroException(String s)<br />
+  {<br />
+  super(s);<br />
+  }<br />
+  } //end class DivideByZeroException <br />
+</p>
+<h1>Assignment 8.7 </h1>
+<h2>&nbsp;</h2>
+<h2><strong>Planning Documents:</strong></h2>
+<h3>&nbsp;</h3>
+<h3><strong>Use Case: Compression and Decompression Applet</strong></h3>
+<p><strong>Scope:</strong> A program that either compress or decompress the file as per user need.</p>
+<p><strong>Level:</strong> User Goal</p>
+<p><strong>Primary Actor:</strong> User is able to Compress or Decompress a text file.</p>
+<p><strong>Preconditions:</strong> Eclipse environment to write the code and run it properly.</p>
+<p><strong>Success Guaratee - Post Conditions:</strong> correctly compressed or decompressed text file.</p>
+<p><strong>Main Success Scenario (or Basic Flow):</strong></p>
+<p>User opeans the page where the applet resides.</p>
+<p>User is able to select file.</p>
+<p>User is able to select save file path.</p>
+<p>User is able to Compress or Decompress a file.</p>
+<p>User is able to see the status.</p>
+<p>&nbsp;</p>
+<h2><strong>Method Diagram:</strong></h2>
+<p>&nbsp;</p>
+<p><img src="method.jpg" width="765" height="467" /></p>
+<p>&nbsp;</p>
+<h2>Applet:</h2>
+<p>&nbsp;</p>
+<p>
+  <applet code="ZipApplet.class" width="578" height="318">
+  </applet>
+</p>
+<p>&nbsp;</p>
+<h2>Code:</h2>
+<h3>1.ZipApplet.java</h3>
+<p>import javax.swing.JApplet;<br />
+  import javax.swing.JButton;</p>
+<p> import java.awt.FileDialog;<br />
+  import java.awt.Frame;<br />
+  import java.awt.event.MouseAdapter;<br />
+  import java.awt.event.MouseEvent;<br />
+  import java.awt.Choice;<br />
+  import java.awt.event.ItemListener;<br />
+  import java.awt.event.ItemEvent;<br />
+  import javax.swing.JLabel;<br />
+  import javax.swing.JTextArea;<br />
+  import javax.swing.JScrollPane;<br />
+  <br />
+  @SuppressWarnings(&quot;serial&quot;)<br />
+  public class ZipApplet extends JApplet<br />
+  {</p>
+<p> String openFilePath, saveFilePath, saveFileName, openFileName, op ,sp;<br />
+  JTextArea open;<br />
+  JTextArea save = new JTextArea();<br />
+  JTextArea message = new JTextArea();<br />
+  boolean zip = true;<br />
+  <br />
+  public ZipApplet()<br />
+  {</p>
+<p> getContentPane().setLayout(null);<br />
+    <br />
+  JButton btnNewButton = new JButton(&quot;Open File&quot;);<br />
+  btnNewButton.addMouseListener(new MouseAdapter()<br />
+  {</p>
+<p> @Override<br />
+  public void mouseClicked(MouseEvent arg0)<br />
+  {<br />
+  <br />
+  Frame parent = new Frame();<br />
+  FileDialog fd = new FileDialog(parent, &quot;Please choose a file:&quot;, FileDialog.LOAD);<br />
+  fd.setVisible(true);<br />
+  openFilePath = fd.getDirectory() + fd.getFile();<br />
+  op = fd.getDirectory();<br />
+  openFileName = fd.getFile();<br />
+  open.setText(&quot;Select file : &quot; + openFilePath);<br />
+  <br />
+  <br />
+  }<br />
+  });<br />
+  btnNewButton.setBounds(140, 20, 93, 23);<br />
+  getContentPane().add(btnNewButton);</p>
+<p> final Choice choice = new Choice();<br />
+  choice.addItemListener(new ItemListener()<br />
+  {<br />
+  <br />
+  public void itemStateChanged(ItemEvent arg0)<br />
+  {<br />
+  <br />
+  if (choice.getSelectedIndex() == 0)<br />
+  {<br />
+  zip = true;</p>
+<p> } else<br />
+  {<br />
+  zip = false;</p>
+<p> }<br />
+    <br />
+  }<br />
+  });<br />
+  choice.add(&quot;Zip&quot;);<br />
+  choice.add(&quot;Gzip&quot;);<br />
+  choice.setBounds(70, 20, 60, 21);<br />
+  getContentPane().add(choice);<br />
+  <br />
+  JButton btnNewButton_1 = new JButton(&quot;Select Save File&quot;);<br />
+  btnNewButton_1.addMouseListener(new MouseAdapter()<br />
+  {<br />
+  <br />
+  @Override<br />
+  public void mouseClicked(MouseEvent arg0)<br />
+  {</p>
+<p> Frame parent = new Frame();<br />
+  FileDialog fd = new FileDialog(parent, &quot;Please choose a file:&quot;, FileDialog.SAVE);<br />
+  fd.setVisible(true);<br />
+  saveFilePath = fd.getDirectory() + fd.getFile();<br />
+  saveFileName = fd.getFile();<br />
+  sp = fd.getDirectory();<br />
+  save.setText(&quot;Save file : &quot; + saveFilePath);<br />
+  <br />
+  }<br />
+  });<br />
+  btnNewButton_1.setBounds(250, 20, 138, 23);<br />
+  getContentPane().add(btnNewButton_1);<br />
+  <br />
+  JLabel lblNewLabel = new JLabel(&quot;Format&quot;);<br />
+  lblNewLabel.setBounds(18, 25, 54, 15);<br />
+  getContentPane().add(lblNewLabel);<br />
+  <br />
+  JButton btnNewButton_2 = new JButton(&quot;Compress&quot;);<br />
+  btnNewButton_2.addMouseListener(new MouseAdapter()<br />
+  {</p>
+<p> @Override<br />
+  public void mouseClicked(MouseEvent e)<br />
+  {<br />
+  <br />
+  if (zip)<br />
+  {<br />
+  message.setText(ZipFormat.zip(openFilePath, saveFilePath + &quot;.zip&quot;, openFileName));<br />
+  } else<br />
+  {<br />
+  message.setText(ZipFormat.gZip(openFilePath, sp, openFileName));<br />
+  }<br />
+  <br />
+  }<br />
+  });<br />
+  btnNewButton_2.setBounds(10, 170, 93, 23);<br />
+  getContentPane().add(btnNewButton_2);<br />
+  <br />
+  JButton btnDecompress = new JButton(&quot;Decompress&quot;);<br />
+  btnDecompress.addMouseListener(new MouseAdapter()<br />
+  {<br />
+  <br />
+  @Override<br />
+  public void mouseClicked(MouseEvent e)<br />
+  {<br />
+  <br />
+  if (zip)<br />
+  {<br />
+  message.setText(ZipFormat.unZip(openFilePath, openFileName, op));<br />
+  } else<br />
+  {<br />
+  message.setText(ZipFormat.unGZip(openFilePath));<br />
+  }<br />
+  <br />
+  }<br />
+  });<br />
+  btnDecompress.setBounds(124, 170, 119, 23);<br />
+  getContentPane().add(btnDecompress);<br />
+  <br />
+  JScrollPane scrollPane = new JScrollPane();<br />
+  scrollPane.setBounds(10, 50, 359, 36);<br />
+  getContentPane().add(scrollPane);</p>
+<p> open = new JTextArea();<br />
+  open.setEditable(false);<br />
+  scrollPane.setViewportView(open);<br />
+  open.setColumns(10);</p>
+<p> JScrollPane scrollPane_1 = new JScrollPane();<br />
+  scrollPane_1.setBounds(10, 90, 357, 34);<br />
+  getContentPane().add(scrollPane_1);<br />
+  <br />
+  scrollPane_1.setViewportView(save);<br />
+  save.setEditable(false);<br />
+  save.setColumns(10);<br />
+  <br />
+  JScrollPane scrollPane_2 = new JScrollPane();<br />
+  scrollPane_2.setBounds(10, 130, 357, 34);<br />
+  getContentPane().add(scrollPane_2);<br />
+  <br />
+  scrollPane_2.setViewportView(message);<br />
+  message.setEditable(false);<br />
+  message.setColumns(10);<br />
+  <br />
+  }<br />
+  }</p>
+<p>&nbsp;</p>
+<h3>2.ZipFormat.java</h3>
+<p>import java.io.BufferedInputStream;<br />
+  import java.io.BufferedOutputStream;<br />
+  import java.io.FileInputStream;<br />
+  import java.io.FileNotFoundException;<br />
+  import java.io.FileOutputStream;<br />
+  import java.io.IOException;<br />
+  import java.util.zip.GZIPInputStream;<br />
+  import java.util.zip.GZIPOutputStream;<br />
+  import java.util.zip.ZipEntry;<br />
+  import java.util.zip.ZipInputStream;<br />
+import java.util.zip.ZipOutputStream;</p>
+<p>public class ZipFormat<br />
+  {</p>
+<p> static int BUFFER = 2000;<br />
+  static String strFPN = &quot;&quot;;<br />
+  static String outFileName = &quot;&quot;;<br />
+  static String error1 = &quot;ERROR Encountered: Unable to create &quot;;<br />
+  static String errorFNF = &quot;ERROR: File not found. &quot;;<br />
+  static String error2 = &quot;ERROR Encountered: File name must have an extension of &quot;;<br />
+  <br />
+  public static String zip(String openFilePath, String saveFilePath, String openFileName)<br />
+  {</p>
+<p> try<br />
+  {<br />
+  BufferedInputStream origin = null;<br />
+  FileOutputStream dest = new FileOutputStream(saveFilePath);<br />
+  ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));<br />
+  out.setMethod(ZipOutputStream.DEFLATED);<br />
+  byte data[] = new byte[BUFFER];<br />
+  <br />
+  FileInputStream fi = new FileInputStream(openFilePath);<br />
+  origin = new BufferedInputStream(fi, BUFFER);<br />
+  <br />
+  ZipEntry entry = new ZipEntry(openFileName);<br />
+  out.putNextEntry(entry);<br />
+  int count;<br />
+  while ((count = origin.read(data, 0, BUFFER)) != -1)<br />
+  {<br />
+  out.write(data, 0, count);<br />
+  }<br />
+  origin.close();<br />
+  out.close();</p>
+<p> strFPN = &quot;File Zipped&quot;;<br />
+    <br />
+  } catch (Exception e)<br />
+  {<br />
+  strFPN = e.getMessage();<br />
+  }<br />
+  return strFPN;<br />
+  }<br />
+  <br />
+  public static String unZip(String openFilePath, String openFileName, String op)<br />
+  {</p>
+<p> try<br />
+  {<br />
+  if (!getExtension(openFileName).equalsIgnoreCase(&quot;zip&quot;))<br />
+  {<br />
+  strFPN = error2 + &quot;.zip&quot;;<br />
+  } else<br />
+  {<br />
+  BufferedOutputStream dest = null;<br />
+  FileInputStream fis = new FileInputStream(openFilePath);<br />
+  ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));<br />
+  ZipEntry entry;</p>
+<p> while ((entry = zis.getNextEntry()) != null)<br />
+  {<br />
+  int count;<br />
+  byte data[] = new byte[BUFFER];<br />
+  <br />
+  FileOutputStream fos = new FileOutputStream(op + entry.getName());<br />
+  strFPN = openFilePath + entry.getName();<br />
+  dest = new BufferedOutputStream(fos, BUFFER);<br />
+  while ((count = zis.read(data, 0, BUFFER)) != -1)<br />
+  {<br />
+  dest.write(data, 0, count);<br />
+  }<br />
+  dest.flush();<br />
+  dest.close();<br />
+  }<br />
+  zis.close();<br />
+  strFPN = &quot;File Unzipped: &quot; + strFPN;<br />
+  }<br />
+  } catch (Exception e)<br />
+  {<br />
+  strFPN = e.getMessage();<br />
+  }<br />
+  return strFPN;<br />
+  }</p>
+<p> public static String gZip(String openFilePath, String sp, String openFileName)<br />
+  {</p>
+<p> try<br />
+  {<br />
+  outFileName = sp + openFileName + &quot;.gz&quot;;<br />
+  GZIPOutputStream out = null;<br />
+  System.out.println(outFileName);<br />
+  try<br />
+  {<br />
+  out = new GZIPOutputStream(new FileOutputStream(outFileName));<br />
+  System.out.println(outFileName);<br />
+  } catch (FileNotFoundException e)<br />
+  {<br />
+  outFileName = error1 + outFileName;<br />
+  }<br />
+  System.out.println(outFileName);</p>
+<p> FileInputStream in = null;<br />
+  try<br />
+  {<br />
+  in = new FileInputStream(openFilePath);<br />
+  } catch (FileNotFoundException e)<br />
+  {<br />
+  outFileName = errorFNF + openFilePath;<br />
+  }</p>
+<p> byte[] buf = new byte[1024];<br />
+  int len;<br />
+  while ((len = in.read(buf)) &gt; 0)<br />
+  {<br />
+  out.write(buf, 0, len);<br />
+  }<br />
+  in.close();<br />
+  <br />
+  out.finish();<br />
+  out.close();<br />
+  outFileName = &quot;File GZipped: &quot; + outFileName;<br />
+  } catch (IOException e)<br />
+  {<br />
+  outFileName = e.getMessage();<br />
+  }<br />
+  return outFileName;<br />
+  }<br />
+  <br />
+  public static String unGZip(String fn)<br />
+  {</p>
+<p> try<br />
+  {<br />
+  if (!getExtension(fn).equalsIgnoreCase(&quot;gz&quot;))<br />
+  {<br />
+  outFileName = error2 + &quot;.gz&quot;;<br />
+  } else<br />
+  {<br />
+  GZIPInputStream in = null;<br />
+  try<br />
+  {<br />
+  in = new GZIPInputStream(new FileInputStream(fn));<br />
+  } catch (FileNotFoundException e)<br />
+  {<br />
+  outFileName = errorFNF + fn;<br />
+  }<br />
+  <br />
+  outFileName = getFileName(fn);<br />
+  FileOutputStream out = null;<br />
+  try<br />
+  {<br />
+  out = new FileOutputStream(outFileName);<br />
+  } catch (FileNotFoundException e)<br />
+  {<br />
+  outFileName = error1 + outFileName;<br />
+  }<br />
+  byte[] buf = new byte[1024];<br />
+  int len;<br />
+  while ((len = in.read(buf)) &gt; 0)<br />
+  {<br />
+  out.write(buf, 0, len);<br />
+  }</p>
+<p> in.close();<br />
+  out.close();<br />
+  outFileName = &quot;File Ungzipped: &quot; + getFileName(fn);<br />
+  }<br />
+  } catch (IOException e)<br />
+  {<br />
+  outFileName = e.getMessage();<br />
+  }<br />
+  return outFileName;<br />
+  }</p>
+<p> public static String getExtension(String f)<br />
+  {</p>
+<p> String ext = &quot;&quot;;<br />
+  int i = f.lastIndexOf('.');</p>
+<p> if (i &gt; 0 &amp;&amp; i &lt; f.length() - 1)<br />
+  {<br />
+  ext = f.substring(i + 1);<br />
+  }<br />
+  return ext;<br />
+  }<br />
+  <br />
+  public static String getFileName(String f)<br />
+  {<br />
+  <br />
+  String fname = &quot;&quot;;<br />
+  int i = f.lastIndexOf('.');<br />
+  <br />
+  if (i &gt; 0 &amp;&amp; i &lt; f.length() - 1)<br />
+  {<br />
+  fname = f.substring(0, i);<br />
+  }<br />
+  return fname;<br />
+  }</p>
+<p> }<br />
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

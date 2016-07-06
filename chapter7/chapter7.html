@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+.STYLE1 {font-family: Arial, Helvetica, sans-serif}
+.STYLE2 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
+-->
+</style>
+</head>
+
+<body>
+<h1 class="STYLE1">Assignment 7.6</h1>
+<h2 class="STYLE1">&nbsp;</h2>
+<h2 class="STYLE1">Planning Documents:</h2>
+<p class="STYLE1">User Case: Sort3 Modified Edition<br />
+  Primary Actor: user<br />
+  Precondition: Understand the concept of sorting.<br />
+  Main Success Scenario:<br />
+Display the applet by clicking the link, and stop it by closing the website. </p>
+<h2 class="STYLE1">Time Sheet :</h2>
+<p class="STYLE1">&nbsp;</p>
+<table width="889" height="211" border="1">
+  <tr>
+    <td width="229"><div align="center">
+      <h2>Date</h2>
+    </div></td>
+    <td width="211"><div align="center">
+      <h2>Time</h2>
+    </div></td>
+    <td width="207"><div align="center">
+      <h2>Task</h2>
+    </div></td>
+    <td width="214"><div align="center">
+      <h2>Time Spent(hrs) </h2>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h2>18-Oct-2014</h2>
+    </div></td>
+    <td><h2 align="center">10:00 AM </h2></td>
+    <td><h2 align="center">Read Textbook and Lecture </h2></td>
+    <td><div align="right">
+      <h2 align="center"><strong>4</strong></h2>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h2>18-Oct-2014</h2>
+    </div></td>
+    <td><h2 align="center">6:00 PM </h2></td>
+    <td><h2 align="center">Plan code </h2></td>
+    <td><div align="right">
+      <h2 align="center"><strong>5</strong></h2>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h2>19-Oct-2014</h2>
+    </div></td>
+    <td><h2 align="center">9:00 AM </h2></td>
+    <td><h2 align="center">Write HTML and Applet container </h2></td>
+    <td><div align="right">
+      <h2 align="center"><strong>6</strong></h2>
+    </div></td>
+  </tr>
+  <tr>
+    <td><h2 align="center">19-Oct-2014</h2></td>
+    <td><h2 align="center">5:00 PM </h2></td>
+    <td><h2 align="center">Install and test code </h2></td>
+    <td><div align="right">
+      <h2 align="center"><strong>2</strong></h2>
+    </div></td>
+  </tr>
+</table>
+<p class="STYLE1">&nbsp;</p>
+<h2 class="STYLE1">Applet : </h2>
+<p>
+  <applet code="Sort3.class" width="888" height="559">
+  </applet>
+  </p>
+<h2>&nbsp;</h2>
+<h2 class="STYLE1"><strong>Method Diagram:</strong></h2>
+<p><img src="diagram.jpg" width="1144" height="892" /></p>
+<h2 class="STYLE1">Code:</h2>
+<p class="STYLE2">1.AlgorithmAnimator.java</p>
+<p> public abstract class AlgorithmAnimator extends DBAnimationApplet {</p>
+<p> abstract protected void algorithm(); <br />
+    <br />
+  public void run() {<br />
+  algorithm(); <br />
+  }</p>
+<p> final protected void pause() {<br />
+  if (Thread.currentThread() == animationThread) {<br />
+  try { <br />
+  Thread.currentThread().sleep(delay); <br />
+  } catch (InterruptedException e) {}<br />
+  repaint();<br />
+  }<br />
+  }<br />
+  }</p>
+<p class="STYLE2">2.AnimationApplet.java</p>
+<p>import java.awt.*;</p>
+<p>public abstract class AnimationApplet extends java.applet.Applet implements java.lang.Runnable {<br />
+    <br />
+  public void start() {<br />
+  animationThread = new Thread(this);<br />
+  animationThread.start();<br />
+  } <br />
+  <br />
+  public void stop() {<br />
+  animationThread = null; <br />
+  }<br />
+  <br />
+  public void run() {<br />
+  while (Thread.currentThread() == animationThread) {<br />
+  try { <br />
+  Thread.currentThread().sleep(delay); <br />
+  } catch (InterruptedException e){} <br />
+  repaint();<br />
+  }<br />
+  }<br />
+  <br />
+  final public void setDelay(int delay) {<br />
+  this.delay = delay; <br />
+  }<br />
+  <br />
+  final public int getDelay() {<br />
+  return delay; <br />
+  } </p>
+<p> protected Thread animationThread;<br />
+  protected int delay = 100; <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">3.BarSortDisplay.java</p>
+<p>import java.awt.*;</p>
+<p>public class BarSortDisplay implements SortDisplay {<br />
+    <br />
+  public int getArraySize(Dimension d) {<br />
+  return d.width / 3; <br />
+  }<br />
+  <br />
+  public void display(int a[], Graphics g, Dimension d, SwapElements se) {<br />
+  g.setColor(Color.white);<br />
+  g.fillRect(0, 0, d.width, d.height);<br />
+  double f = d.height / (double) a.length; <br />
+  double cf = 255.0 / (double) a.length;<br />
+  int x = d.width - 3;<br />
+  for (int i = a.length; --i &gt;= 0; x -= 3) {<br />
+  g.setColor(new Color((int)(a[i] * cf / 1.5), (int)(a[i] * cf), 0));<br />
+  g.fillRect(x, d.height - (int)(a[i] * f), 3, (int)(a[i] * f));<br />
+  }<br />
+  } <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">4.BarSortDisplay2.java</p>
+<p>import java.awt.*;</p>
+<p>public class BarSortDisplay2 implements SortDisplay {<br />
+    <br />
+  public int getArraySize(Dimension d) {<br />
+  return d.width / 3; <br />
+  }<br />
+  <br />
+  public void display(int a[], Graphics g, Dimension d, SwapElements se) {<br />
+  g.setColor(Color.white);<br />
+  g.fillRect(0, 0, d.width, d.height);<br />
+  double f = d.height / (double) a.length; <br />
+  double cf = 255.0 / (double) a.length;<br />
+  int x = d.width - 3;<br />
+  for (int i = a.length; --i &gt;= 0; x -= 3) {<br />
+  if(i != se.getSwapItem1() &amp;&amp; i != se.getSwapItem2()){<br />
+  g.setColor(new Color((int)(a[i] * cf / 1.5), (int)(a[i] * cf), 0));<br />
+  g.fillRect(x, d.height - (int)(a[i] * f), 3, (int)(a[i] * f));<br />
+  } else if (i == se.getSwapItem1()){<br />
+  g.setColor(new Color(255, 0, 0));<br />
+  g.fillRect(x, d.height - (int)(a[i] * f), 3, (int)(a[i] * f));<br />
+  } else if (i == se.getSwapItem2()){<br />
+  g.setColor(new Color(255, 255, 0));<br />
+  g.fillRect(x, d.height - (int)(a[i] * f), 3, (int)(a[i] * f));<br />
+  }<br />
+  }<br />
+  } <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">5.BubbleSortAlgorithm.java</p>
+<p>class BubbleSortAlgorithm extends SortAlgorithm {<br />
+    <br />
+  void sort(int a[], SwapElements se) {<br />
+  <br />
+  for (int i = a.length; --i&gt;=0; )<br />
+  for (int j = 0; j&lt;i; j++) {<br />
+  se.setSwapItem1(j);<br />
+  se.setSwapItem2(j+1);<br />
+  if (a[j] &gt; a[j+1]){<br />
+  swap(a, j, j+1);<br />
+  }<br />
+  pause();<br />
+  }<br />
+  }</p>
+<p> public BubbleSortAlgorithm(AlgorithmAnimator animator) {<br />
+  super(animator); <br />
+  }<br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">6.DBAnimationApplet.java</p>
+<p>import java.awt.*;</p>
+<p>public abstract class DBAnimationApplet extends AnimationApplet { </p>
+<p> abstract protected void paintFrame(Graphics g); </p>
+<p> final public void update(Graphics g) {<br />
+  if (doubleBuffered) {<br />
+  if (im == null) {<br />
+  im = createImage(d.width, d.height);<br />
+  offscreen = im.getGraphics();<br />
+  }<br />
+  paintFrame(offscreen); <br />
+  g.drawImage(im, 0, 0, this);<br />
+  } else { <br />
+  super.update(g); <br />
+  }<br />
+  }<br />
+  <br />
+  final public void paint(Graphics g) {<br />
+  paintFrame(g); <br />
+  }<br />
+  <br />
+  final public void init() {<br />
+  d = getSize();<br />
+  initAnimator(); <br />
+  }<br />
+  <br />
+  protected void initAnimator() {} </p>
+<p> protected DBAnimationApplet(boolean doubleBuffered) {<br />
+  this.doubleBuffered = doubleBuffered;<br />
+  }<br />
+  <br />
+  protected DBAnimationApplet() {<br />
+  this.doubleBuffered = true; <br />
+  }<br />
+  <br />
+  protected boolean doubleBuffered;<br />
+  protected Image im;<br />
+  protected Graphics offscreen; <br />
+  protected Dimension d; <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">7.InsertionSortAlgorithm.java</p>
+<p>public class InsertionSortAlgorithm extends SortAlgorithm {</p>
+<p> void sort(int a[], SwapElements se) {<br />
+    <br />
+  int max = a.length;<br />
+  <br />
+  for(int j = 1; j &lt; max; j++) { <br />
+  int tmp = a[j]; <br />
+  int i = j - 1; <br />
+  while(tmp &lt; a[i]) { <br />
+  a[i+1] = a[i];<br />
+  se.setSwapItem1(i);<br />
+  se.setSwapItem2(i+1);<br />
+  i--; <br />
+  pause();<br />
+  if(i == -1) <br />
+  break; <br />
+  } <br />
+  a[i+1] = tmp;<br />
+  pause();<br />
+  } <br />
+  }<br />
+  <br />
+  public InsertionSortAlgorithm(AlgorithmAnimator animator) {<br />
+  super(animator); <br />
+  }<br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">8.QuickSortAlgorithm.java</p>
+<p>public class QuickSortAlgorithm extends SortAlgorithm {<br />
+    <br />
+  public QuickSortAlgorithm(AlgorithmAnimator animator) {<br />
+  super(animator); <br />
+  }</p>
+<p> protected void QSort(int a[], int lo0, int hi0, SwapElements se) {<br />
+  int lo = lo0;<br />
+  int hi = hi0;<br />
+  int mid;</p>
+<p> pause();<br />
+  if (hi0 &gt; lo0) {<br />
+  mid = a[ ( lo0 + hi0 ) / 2 ];<br />
+  while( lo &lt;= hi ) {<br />
+  se.setSwapItem1(lo);<br />
+  se.setSwapItem2(hi);<br />
+  while( ( lo &lt; hi0 ) &amp;&amp; ( a[lo] &lt; mid ) )<br />
+  ++lo;<br />
+  while( ( hi &gt; lo0 ) &amp;&amp; ( a[hi] &gt; mid ) )<br />
+  --hi;<br />
+  if( lo &lt;= hi ) {<br />
+  swap(a, lo, hi);<br />
+  pause(); <br />
+  ++lo;<br />
+  --hi;<br />
+  }<br />
+  }<br />
+  if( lo0 &lt; hi )<br />
+  QSort( a, lo0, hi, se);<br />
+  if( lo &lt; hi0 )<br />
+  QSort( a, lo, hi0, se);<br />
+  }<br />
+  }</p>
+<p> public void sort(int a[], SwapElements se) {<br />
+  QSort(a, 0, a.length - 1, se);<br />
+  }<br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">9.Sort2.java</p>
+<p>import java.awt.*;</p>
+<p>public class Sort2 extends AlgorithmAnimator {<br />
+    <br />
+  SwapElements se = new SwapElements();<br />
+  <br />
+  public void initAnimator() {<br />
+  setDelay(20); <br />
+  algName = null; <br />
+  String at = getParameter(&quot;alg&quot;);<br />
+  if (at != null)<br />
+  algName = at; <br />
+  algorithmFactory = new StaticAlgoFactory(this); <br />
+  theAlgorithm = algorithmFactory.makeSortAlgorithm(algName); <br />
+  scramble(); <br />
+  }</p>
+<p> protected void algorithm() {<br />
+  if (theAlgorithm != null)<br />
+  theAlgorithm.sort(arr, se);<br />
+  }</p>
+<p> protected void scramble() {<br />
+  arr = new int[getSize().height / 2];<br />
+  for (int i = arr.length; --i &gt;= 0;) {<br />
+  arr[i] = i;<br />
+  }<br />
+  for (int i = arr.length; --i &gt;= 0;) {<br />
+  int j = (int)(i * Math.random());<br />
+  SortAlgorithm.swap(arr, i, j); <br />
+  }<br />
+  }</p>
+<p> protected void paintFrame(Graphics g) {}</p>
+<p> protected int arr[]; <br />
+  protected String algName; <br />
+  protected SortAlgorithm theAlgorithm;<br />
+  protected SortAlgorithmFactory algorithmFactory; <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">10.Sort3.java</p>
+<p>import java.awt.*; </p>
+<p>public class Sort3 extends Sort2 {<br />
+    <br />
+  public void initAnimator() {<br />
+  String att = getParameter(&quot;dis&quot;);<br />
+  displayFactory = new StaticSortDisplayFactory(); <br />
+  theDisplay = displayFactory.makeSortDisplay(att); <br />
+  super.initAnimator(); <br />
+  }<br />
+  <br />
+  protected void paintFrame(Graphics g) {<br />
+  theDisplay.display(arr, g, getSize(), se); <br />
+  }<br />
+  <br />
+  SortDisplay theDisplay; <br />
+  SortDisplayFactory displayFactory; <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">11.SortAlgorithm.java</p>
+<p>public abstract class SortAlgorithm {</p>
+<p> abstract void sort(int a[], SwapElements se); </p>
+<p> private AlgorithmAnimator animator; </p>
+<p> protected SortAlgorithm(AlgorithmAnimator animator) {<br />
+  this.animator = animator; <br />
+  }</p>
+<p> protected void pause() {<br />
+  if (animator != null) <br />
+  animator.pause();<br />
+  }</p>
+<p> protected static void swap(int a[], int i, int j) {<br />
+  int T;<br />
+  T = a[i]; a[i] = a[j]; a[j] = T;<br />
+  }<br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">12.SortAlgorithmFactory.java</p>
+public interface SortAlgorithmFactory {<br />
+SortAlgorithm makeSortAlgorithm(String algName); <br />
+}
+<p class="STYLE2">13.SortDisplay.java</p>
+<p>import java.awt.*; </p>
+<p>public interface SortDisplay {<br />
+  int getArraySize(Dimension d); <br />
+  void display(int a[], Graphics g, Dimension d, SwapElements se); <br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">14.SortDisplayFactory.java</p>
+public interface SortDisplayFactory {<br />
+SortDisplay makeSortDisplay(String name); <br />
+}
+<p class="STYLE2">15.StaticAlgoFactory.java</p>
+<p><br />
+  public class StaticAlgoFactory implements SortAlgorithmFactory {<br />
+  <br />
+  public SortAlgorithm makeSortAlgorithm(String algName) {<br />
+  if (&quot;BubbleSort&quot;.equals(algName))<br />
+  return new BubbleSortAlgorithm(animator); <br />
+  else if (&quot;QuickSort&quot;.equals(algName)) <br />
+  return new QuickSortAlgorithm(animator);<br />
+  else if (&quot;InsertionSort&quot;.equals(algName)) <br />
+  return new InsertionSortAlgorithm(animator);<br />
+  else<br />
+  return new BubbleSortAlgorithm(animator); <br />
+  }</p>
+<p> protected AlgorithmAnimator animator; <br />
+    <br />
+  public StaticAlgoFactory(AlgorithmAnimator animator) {<br />
+  this.animator = animator; <br />
+  }<br />
+  }</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE2">16.StaticSortDisplayFactory.java</p>
+public class StaticSortDisplayFactory implements SortDisplayFactory {<br />
+<br />
+public SortDisplay makeSortDisplay(String name) {<br />
+if (&quot;bar&quot;.equals(name)) <br />
+return new BarSortDisplay(); <br />
+else <br />
+return new BarSortDisplay2(); <br />
+}<br />
+}
+<p class="STYLE2">17.SwapElements.java</p>
+public class SwapElements {<br />
+<br />
+private int swapItem1;<br />
+private int swapItem2;<br />
+<br />
+public int getSwapItem1() {<br />
+return swapItem1;<br />
+}<br />
+public void setSwapItem1(int swapItem1) {<br />
+this.swapItem1 = swapItem1;<br />
+}<br />
+public int getSwapItem2() {<br />
+return swapItem2;<br />
+}<br />
+public void setSwapItem2(int swapItem2) {<br />
+this.swapItem2 = swapItem2;<br />
+}<br />
+}
+<p class="STYLE1">&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

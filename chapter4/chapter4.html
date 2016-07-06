@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+.STYLE1 {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 24px;
+}
+.STYLE2 {font-family: "Times New Roman", Times, serif; font-size: 24px; font-weight: bold; }
+.STYLE3 {font-size: 18px}
+.STYLE4 {font-family: "Times New Roman", Times, serif; font-size: 18; }
+.STYLE5 {font-size: 18}
+.STYLE6 {font-size: 18px; font-family: "Times New Roman", Times, serif; }
+.STYLE7 {font-size: 24px}
+-->
+</style>
+</head>
+
+<body>
+<p class="STYLE1"><strong>Question 4.1</strong></p>
+<p class="STYLE1">Write a Java application to calculate the factorial of an integer n, using iteration (not recursion). The factorial function n! is defined as:</p>
+<p align="center" class="STYLE1"> 0! = 1</p>
+<p align="center" class="STYLE1"> n! = n * (n-1)!</p>
+<p class="STYLE1"> The input value is given as a command-line argument to the Java application.</p>
+<p class="STYLE2">Answer 4.1 </p>
+<p><span class="STYLE3"><span class="STYLE5"><strong>package </strong>myprog.single;<br />
+    <strong>import </strong>java.math.BigInteger;<br />
+    <strong>import </strong>java.util.Scanner;<br />
+  <br />
+    <strong>public class </strong>Assignment4_1 {<br />
+        <strong> public static void </strong>main(String[] args) {<br />
+  Scanner scanner=<strong>new </strong>Scanner(System.in);<br />
+  System.out.println(&quot;Please enter an integer:&quot;);<br />
+  <strong>int </strong>n=scanner.nextInt();<br />
+  BigInteger sum=<strong>new </strong>BigInteger(&quot;1&quot;);<br />
+  <strong>if</strong>(n==0 || n==1){<br />
+  System.out.println(n+&quot;!=&quot;+sum);<br />
+  }<br />
+  <strong>else</strong>{<br />
+  <strong>for</strong>(<strong>int </strong>i=2;i&lt;=n;i++){<br />
+  BigInteger bi=<strong>new </strong>BigInteger(Integer.toString(i));<br />
+  sum=sum.multiply(bi);<br />
+  }<br />
+  System.out.println(n+&quot;!=&quot;+sum);<br />
+  }<br />
+</span></span><span class="STYLE7">}</span></p>
+<span class="STYLE3"><span class="STYLE5">}<br />
+<img src="screen shoot/1.jpg" width="809" height="539" /></span></span>
+<p class="STYLE4">&nbsp;</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE2">Question 4.2</p>
+<p class="STYLE1">Write a Java application to calculate the average of a list of integers. The input data is stored in a text file, in which each line contains a single integer. The name of the input data file is given as a command-line argument to the Java application. The output should include the number of integers and their average.</p>
+<p><span class="STYLE2">Answer 4.2</span></p>
+<p class="STYLE3"><strong>package </strong>myprog.single;<br />
+  <strong>import </strong>java.io.BufferedReader;<br />
+  <strong>import </strong>java.io.FileReader;<br />
+  <strong>import </strong>java.io.IOException;<br />
+  <strong>import </strong>java.util.Scanner;<br />
+  <strong>import </strong>java.util.StringTokenizer;<br />
+</p>
+<p class="STYLE3">  <strong>public class </strong>Assignment4_2 {<br />
+  <strong>public static void </strong>main(String[] args) {<br />
+  <strong>try </strong>{<br />
+  Scanner s=<strong>new </strong>Scanner(System.in);<br />
+  System.out.println(&quot;Please enter a file name:&quot;); <br />
+  String path=s.nextLine();<br />
+  FileReader fr=<strong>new </strong>FileReader(path);<br />
+  BufferedReader br=<strong>new </strong>BufferedReader(fr);<br />
+  String line;<br />
+  <strong>int </strong>sum=0;<br />
+  <strong>int </strong>count=0;<br />
+  System.out.print(&quot;the number in the file is: &quot;);<br />
+  <strong>while</strong>((line=br.readLine())!=<strong>null</strong>){<br />
+  StringTokenizer st=<strong>new </strong>StringTokenizer(line);<br />
+   
+  <strong>while</strong>(st.hasMoreTokens()){<br />
+  String r=st.nextToken();<br />
+  System.out.print(r+&quot;,&quot;);<br />
+  sum=sum+Integer.parseInt(r);<br />
+  }<br />
+  count++;<br />
+  }<br />
+  fr.close();<br />
+  br.close();<br />
+  System.out.println(&quot;\nthe average is:&quot;+sum/count);<br />
+</p>
+<p class="STYLE3">} <strong>catch </strong>(IOException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  System.out.println(&quot;error&quot;);<br />
+  }<br />
+  }<br />
+}</p>
+<p class="STYLE3"><img src="screen shoot/2.jpg" width="790" height="420" /><img src="screen shoot/3.jpg" alt="" width="783" height="330" /></p>
+<p>&nbsp;</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE2" id="yui_3_13_0_2_1411486371512_449">Question 4.3 </p>
+<p class="STYLE6" id="yui_3_13_0_2_1411486371512_435">Write a Java application that uses the data from a test file named students.txt to create a file called studentemail.txt. The input file consists of a number of lines, with each line containing the data of a student in colon-delimited format:</p>
+<p class="STYLE6"> Last Name:First Name:Social Security Number</p>
+<p class="STYLE6">For example:</p>
+<p class="STYLE6"> Owen:Micheal:326502626</p>
+<p class="STYLE6"> The output file contains student e-mail IDs generated from the information in the input file. Each input record will be converted to an e-mail ID in the following format:</p>
+<p class="STYLE6"> the first character of the first name +</p>
+<p class="STYLE6"> the first character of the last name +</p>
+<p class="STYLE6">  “@” +</p>
+<p class="STYLE6"> “se.depaul.edu”</p>
+<p class="STYLE6"> For example, Michael Owen’s new e-mail ID would be:</p>
+<p class="STYLE6"> mo2626@se.depaul.edu</p>
+<p class="STYLE6"> Note that no uppercase letters are allowed in the new e-mail IDs and that the output file should contain one e-mail ID per line.</p>
+<p class="STYLE6">&nbsp;</p>
+<p class="STYLE2">Answer 4.3</p>
+<p>import java.io.*;<br />
+  import java.awt.*;<br />
+  import java.awt.event.*;<br />
+  import javax.swing.*;<br />
+  import javax.swing.filechooser.*;<br />
+  import java.util.*;<br />
+</p>
+<p>public class CreateEmailApplet extends JApplet {<br />
+    <br />
+  //==========  Data Member Declarations  ==========//<br />
+  JPanel pHeader, pLabel, pResult;<br />
+  JButton bGetFile, bCreateEmail, bSave, bReset;<br />
+  JLabel lDescription, lFileStatus, lEmailStatus;<br />
+  JTextArea taFileContents, taEmails;<br />
+  JScrollPane spFileScroll, spEmailScroll;<br />
+  JFileChooser fcChoose = new JFileChooser();<br />
+  <br />
+  String fileInputLine;<br />
+  StringTokenizer st;<br />
+  FileReader fReader = null;<br />
+  BufferedReader bReader;<br />
+  PrintWriter writer;<br />
+  <br />
+  ActionListener alGetFile;<br />
+  ActionListener alGenerateEmail;<br />
+  ActionListener alSaveFile;<br />
+  ActionListener alReset;<br />
+  <br />
+  File file;<br />
+  <br />
+  <br />
+  //End Data Member Declarations<br />
+  //================================================================================================================== <br />
+  <br />
+  <br />
+  //==========  Invoke init() of JApplet: Initialize the JApplet  ==========//<br />
+  public void init() {<br />
+  createGUI();<br />
+  getFile();<br />
+  saveFile();<br />
+  resetForm();<br />
+  }<br />
+  <br />
+  //End init()<br />
+  //==================================================================================================================<br />
+  <br />
+  <br />
+  //==========  createGUI() Definition:  Layout the graphical components of the class  ==========//<br />
+  public void createGUI() {<br />
+  setLayout(null);<br />
+  <br />
+  pHeader = new JPanel();<br />
+  pHeader.setLayout(null);<br />
+  pHeader.setSize(580, 75);<br />
+  pHeader.setLocation(10,10);<br />
+  pHeader.setBorder(BorderFactory.createEtchedBorder());<br />
+  pHeader.setBackground(Color.GRAY);</p>
+<p> lDescription = new JLabel();<br />
+  lDescription.setLocation(10, 10);<br />
+  lDescription.setSize(580,25);<br />
+  lDescription.setText(&quot;This program imports a text file &amp; then generates email addresses using the data.&quot;);<br />
+  <br />
+  bGetFile = new JButton(&quot;Get File&quot;);<br />
+  bGetFile.setLocation(10,45);<br />
+  bGetFile.setSize(90,25);<br />
+  <br />
+  lFileStatus = new JLabel();<br />
+  lFileStatus.setLocation(110, 45);<br />
+  lFileStatus.setSize(300,25);<br />
+  <br />
+  taFileContents = new JTextArea();<br />
+  taFileContents.setEditable(false);<br />
+  spFileScroll = new JScrollPane(taFileContents);<br />
+  spFileScroll.setLocation(10, 95);<br />
+  spFileScroll.setSize(580, 190);<br />
+  spFileScroll.setVisible(true);<br />
+  <br />
+  pLabel = new JPanel();<br />
+  pLabel.setLayout(null);<br />
+  pLabel.setSize(580, 45);<br />
+  pLabel.setLocation(10,286);<br />
+  pLabel.setBorder(BorderFactory.createEtchedBorder());<br />
+  pLabel.setBackground(Color.GRAY);<br />
+  pLabel.setVisible(false);<br />
+  <br />
+  lEmailStatus = new JLabel();<br />
+  lEmailStatus.setLocation(10, 10);<br />
+  lEmailStatus.setSize(580,25);<br />
+  lEmailStatus.setText(&quot;Generated email addresses.  Click the Save Button to save the output.&quot;);<br />
+  <br />
+  taEmails = new JTextArea();<br />
+  taEmails.setEditable(false);<br />
+  spEmailScroll = new JScrollPane(taEmails);<br />
+  spEmailScroll.setLocation(10, 332);<br />
+  spEmailScroll.setSize(580, 190);<br />
+  spEmailScroll.setVisible(false);<br />
+  <br />
+  pResult = new JPanel();<br />
+  pResult.setLayout(null);<br />
+  pResult.setSize(580, 75);<br />
+  pResult.setLocation(10,532);<br />
+  pResult.setBorder(BorderFactory.createEtchedBorder());<br />
+  pResult.setBackground(Color.GRAY);<br />
+  <br />
+  bCreateEmail = new JButton(&quot;Generate Emails&quot;);<br />
+  bCreateEmail.setLocation(10,10);<br />
+  bCreateEmail.setSize(150,25);<br />
+  bCreateEmail.setVisible(false);<br />
+  <br />
+  bSave = new JButton(&quot;Save File&quot;);<br />
+  bSave.setLocation(200,10);<br />
+  bSave.setSize(100,25);<br />
+  bSave.setVisible(false);<br />
+  <br />
+  bReset = new JButton(&quot;Reset Form&quot;);<br />
+  bReset.setLocation(430,40);<br />
+  bReset.setSize(140,25);<br />
+  bReset.setVisible(false);<br />
+  <br />
+  //==========  Add Instantiated objects to the JApplet frame  ==========//<br />
+  add(pHeader);<br />
+  pHeader.add(lDescription); <br />
+  pHeader.add(bGetFile);<br />
+  pHeader.add(lFileStatus);<br />
+  add(spFileScroll);<br />
+  add(pLabel);<br />
+  pLabel.add(lEmailStatus);<br />
+  add(spEmailScroll);<br />
+  add(pResult);<br />
+  pResult.add(bCreateEmail);<br />
+  pResult.add(bSave);<br />
+  pResult.add(bReset);<br />
+  }<br />
+  <br />
+  //End createGUI()<br />
+  //==================================================================================================================<br />
+  <br />
+  <br />
+  //==========  getFile() Definition:  When the Get File button is clicked display a jFileChooser object  ==========//<br />
+  public void getFile() {<br />
+  <br />
+  alGetFile = new ActionListener() {<br />
+  public void actionPerformed(ActionEvent e) {<br />
+  <br />
+  int returnVal = fcChoose.showOpenDialog(CreateEmailApplet.this);<br />
+  if (returnVal == JFileChooser.APPROVE_OPTION) {<br />
+  file = fcChoose.getSelectedFile();<br />
+  lFileStatus.setText(&quot;Selected File: &quot; + file.getName());<br />
+  readFile(file);<br />
+  generateEmailFile(file);<br />
+  }<br />
+  else {<br />
+  taFileContents.append(&quot;File open command cancelled by user.\n&quot;);<br />
+  }<br />
+  } <br />
+  };<br />
+  bGetFile.addActionListener(alGetFile);    //end of actionListener()<br />
+  }<br />
+  <br />
+  //End getFile()<br />
+  //==================================================================================================================<br />
+  <br />
+  <br />
+  //==========  readFile() Definition:  Accept a parameter of type File to read the data file  ==========//<br />
+  public void readFile(File file) {<br />
+  try {<br />
+  if (file.canRead() &amp;&amp; file.exists()) {<br />
+  fReader = new FileReader(file);<br />
+  }</p>
+<p> bReader = new BufferedReader(fReader);</p>
+<p> String inputLine = bReader.readLine();<br />
+  while(inputLine!=null &amp;&amp; inputLine.isEmpty()==false) {<br />
+  taFileContents.append(inputLine+&quot;\n&quot;);<br />
+  inputLine = bReader.readLine();<br />
+  }<br />
+  <br />
+  fReader.close();<br />
+  bReader.close();<br />
+  <br />
+  //call the following methods using the local variable values<br />
+  <br />
+  <br />
+  //set the following buttons to visible after the data has been loaded</p>
+<p> bCreateEmail.setVisible(true);<br />
+  bSave.setVisible(true);<br />
+  bReset.setVisible(true);<br />
+  <br />
+  } catch (Exception e) {<br />
+  taFileContents.append(&quot;Unable to read file: &quot; + e);<br />
+  }<br />
+  }</p>
+<p> //End readFile()<br />
+  //==================================================================================================================<br />
+  <br />
+  <br />
+  //==========  saveFile() Definition:  Save the current contents of the taEmails text area to a file  ==========//<br />
+  public void saveFile()<br />
+  {<br />
+  alSaveFile = new ActionListener() {<br />
+  public void actionPerformed(ActionEvent ae) {<br />
+  try {<br />
+  int returnVal = fcChoose.showSaveDialog(CreateEmailApplet.this);<br />
+  if (returnVal == JFileChooser.APPROVE_OPTION) {<br />
+  File fileSave = fcChoose.getSelectedFile();<br />
+  writer = new PrintWriter(new FileWriter(fileSave));<br />
+  writer.print(taEmails.getText());<br />
+  writer.close();<br />
+  }<br />
+  <br />
+  } catch (Exception e) {<br />
+  taEmails.append(&quot;Error saving File: &quot;+e);<br />
+  }<br />
+  } <br />
+  }; <br />
+  bSave.addActionListener(alSaveFile);<br />
+  }</p>
+<p> //End saveFile()<br />
+  //==================================================================================================================<br />
+</p>
+<p> //==========  generateEmailFile() Definition:  Read file &amp; append contents to the taEmails text area  ==========//<br />
+  public void generateEmailFile(File file)<br />
+  {<br />
+  try {<br />
+  fReader = new FileReader(file);<br />
+  bReader = new BufferedReader(fReader);<br />
+  alGenerateEmail = new ActionListener() {<br />
+  public void actionPerformed(ActionEvent ae) {<br />
+  try{<br />
+  String subSocialNum, lowerFI, lowerLI;<br />
+  String email = &quot;@se.depaul.edu&quot;;<br />
+  String inputLine = bReader.readLine();<br />
+  while(inputLine!=null &amp;&amp; inputLine.isEmpty()==false) {<br />
+  StringTokenizer st = new StringTokenizer(inputLine, &quot;:&quot;);<br />
+  lowerLI = (st.nextToken()).toLowerCase();<br />
+  lowerFI = (st.nextToken()).toLowerCase();<br />
+  subSocialNum = st.nextToken();<br />
+  <br />
+  taEmails.append(lowerFI.substring(0,1)+lowerLI.substring(0,1)+<br />
+  subSocialNum.substring(subSocialNum.length()-4, subSocialNum.length())+<br />
+  email+&quot;\n&quot;);<br />
+  inputLine = bReader.readLine();<br />
+  }<br />
+  spEmailScroll.setVisible(true);<br />
+  pLabel.setVisible(true);<br />
+  } catch (Exception e) {<br />
+  taEmails.append(&quot;Error: &quot;+e);<br />
+  } <br />
+  } <br />
+  }; <br />
+  } catch (Exception e) {<br />
+  taEmails.append(&quot;Error generating emails: &quot;+e);<br />
+  } <br />
+  bCreateEmail.addActionListener(alGenerateEmail);<br />
+  }<br />
+  <br />
+  //End generateEmailFile()<br />
+  //==================================================================================================================<br />
+  <br />
+  <br />
+  //==========  resetForm() Definition:  Reset textAreas to allow for selection of a new file  ==========//<br />
+  public void resetForm()<br />
+  {<br />
+  alReset = new ActionListener() {<br />
+  public void actionPerformed(ActionEvent ae) {<br />
+  try {<br />
+  taFileContents.setText(null);<br />
+  taEmails.setText(null);<br />
+  <br />
+  bCreateEmail.setVisible(false);<br />
+  bSave.setVisible(false);<br />
+  bReset.setVisible(false);<br />
+  spEmailScroll.setVisible(false);<br />
+  pLabel.setVisible(false);<br />
+  <br />
+  } catch (NumberFormatException e) {<br />
+  taFileContents.append(&quot;Error resetting form: &quot;+e);<br />
+  }<br />
+  } <br />
+  }; <br />
+  bReset.addActionListener(alReset);<br />
+  }<br />
+  <br />
+  //End resetForm()<br />
+  //==================================================================================================================<br />
+  <br />
+  }//End of CreateEmailApplet</p>
+<p>&nbsp;</p>
+<p class="STYLE2"><img src="screen shoot/4.jpg" width="638" height="421" /><img src="screen shoot/5.jpg" width="653" height="426" /></p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE2" id="yui_3_13_0_2_1411502406268_437">Question 4.7a</p>
+<p class="STYLE1">Move each of the Java applications in Exercises 4.1-4.3 to a package named myprog.single. Compile and run each of the applications.</p>
+<p class="STYLE2">Answer 4.7a <br />
+  <span class="STYLE1"><img src="screen shoot/6.jpg" width="544" height="310" /></span></p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE2">Question 4.8</p>
+<p><span class="STYLE1">Run the Java application in Exercise 4.2 with invalid input:</span></p>
+<p class="STYLE1">(a)Provide an incorrect file name; that is, the file name doesn’t exist.</p>
+<p class="STYLE1" id="yui_3_13_0_2_1411502406268_423">(b)Provide a correct file name, but the input file contains invalid contents; for example, a line contains a non-integer or multiple integers.</p>
+<p class="STYLE1">Write an improved version of the program using exception handling. This program should give a meaningful message when the input file name is incorrect, and ignore any lines in the input file that are other than a single integer.</p>
+<p class="STYLE2">Answers 4.8 </p>
+<p class="STYLE3"><strong>package </strong>myprog.single;<br />
+  <br />
+    <strong>import </strong>java.io.BufferedReader;<br />
+    <strong>import </strong>java.io.FileNotFoundException;<br />
+    <strong>import </strong>java.io.FileReader;<br />
+    <strong>import </strong>java.io.IOException;<br />
+    <strong>import </strong>java.util.Scanner;<br />
+    <strong>import </strong>java.util.StringTokenizer;<br />
+  <br />
+  <br />
+    <strong>public class </strong>Assignment4_8 {<br />
+  <br />
+  <strong>public static void </strong>main(String[] args) {<br />
+  <strong>try </strong>{<br />
+  Scanner s=<strong>new </strong>Scanner(System.in);<br />
+  System.out.println(&quot;Please enter a file name:&quot;); <br />
+  String path=s.nextLine();<br />
+  FileReader fr=<strong>new </strong>FileReader(path);<br />
+  BufferedReader br=<strong>new </strong>BufferedReader(fr);<br />
+  String line;<br />
+  String delim=&quot;\t\n.,;:?!-/()[]\&quot;\'&quot;;<br />
+  <strong>int </strong>sum=0;<br />
+  <strong>int </strong>count=0;<br />
+  String sumFile=&quot;&quot;;<br />
+  System.out.print(&quot;the number in the file is: &quot;);<br />
+  <strong>while</strong>((line=br.readLine())!=<strong>null</strong>){<br />
+  StringTokenizer st=<strong>new </strong>StringTokenizer(line,delim);<br />
+  <strong>while</strong>(st.hasMoreTokens()){<br />
+  String r=st.nextToken();<br />
+  <strong>if</strong>(r.matches(&quot;[0-9]+&quot;)==<strong>false </strong>|| st.countTokens()&gt;1){<br />
+  <strong>break</strong>;<br />
+  }<br />
+  sumFile=sumFile+r+&quot;,&quot;;<br />
+  sum=sum+Integer.parseInt(r);<br />
+  count++; <br />
+  }<br />
+  }<br />
+  fr.close();<br />
+  br.close();<br />
+  System.out.println(sumFile.substring(0, sumFile.lastIndexOf(&quot;,&quot;)));<br />
+  System.out.println(&quot;the average is:&quot;+sum/count);<br />
+  } <strong>catch </strong>(NumberFormatException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  } <strong>catch </strong>(FileNotFoundException e) {<br />
+  // TODO Auto-generated catch block<br />
+  System.out.println(&quot;The file does not exist!&quot;);<br />
+  } <strong>catch </strong>(IOException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+}</p>
+<p class="STYLE1"><span class="STYLE3"><img src="screen shoot/7.jpg" width="572" height="241" /></span></p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<p class="STYLE1">$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</p>
+<table width="900" height="193" border="1">
+  <tr>
+    <td width="219"><div align="center"><strong>Timesheet</strong></div></td>
+    <td width="215">&nbsp;</td>
+    <td width="217">&nbsp;</td>
+    <td width="220">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="36"><div align="center"><strong>Date</strong></div></td>
+    <td><div align="center"><strong>Time</strong></div></td>
+    <td> <div align="center"><strong>Task </strong></div></td>
+    <td><div align="center"><strong>Speed</strong></div></td>
+  </tr>
+  <tr>
+    <td><div align="center"><strong>Sep-21</strong></div></td>
+    <td><div align="center">7:00</div></td>
+    <td>Read Textbooks </td>
+    <td><div align="center">4 hours </div></td>
+  </tr>
+  <tr>
+    <td><div align="center"><strong>Sep-22</strong></div></td>
+    <td><div align="center">9:00</div></td>
+    <td>Read PPTs and plan to code for assignments</td>
+    <td><div align="center">5 hours </div></td>
+  </tr>
+  <tr>
+    <td><div align="center"><strong>Sep-23</strong></div></td>
+    <td><div align="center">11:00</div></td>
+    <td>Write the code on eclipse and test them </td>
+    <td><div align="center">8 hours </div></td>
+  </tr>
+</table>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE1">&nbsp;</p>
+<p class="STYLE1">&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<h1><strong>Assignment 5a</strong></h1>
+<p>
+    <applet code="Chapter5a.class" width="220" height="179">
+          </applet>
+</p>
+<h1>Anwers 4.9</h1>
+<h4><strong>package assignment5a1;</strong></h4>
+<h4><strong> import java.applet.Applet;<br />
+  import java.awt.*;<br />
+  import java.util.Calendar;<br />
+  import java.util.Date;</strong></h4>
+<h3><strong> public class assignment5a1 extends Applet implements Runnable{<br />
+  protected Thread clockThread=null;<br />
+  <br />
+  public void start(){<br />
+  if(clockThread==null){<br />
+  clockThread=new Thread(this);<br />
+  clockThread.start();<br />
+  }<br />
+  }<br />
+  <br />
+  public void stop(){<br />
+  clockThread=null;<br />
+  }<br />
+  <br />
+  public void run(){<br />
+  while(Thread.currentThread()==clockThread){<br />
+  repaint();<br />
+  try {<br />
+  Thread.currentThread().sleep(1000);<br />
+  } catch (InterruptedException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  }<br />
+  <br />
+  public void paint(Graphics g){<br />
+  Calendar cal=Calendar.getInstance();<br />
+  int hour=cal.get(Calendar.HOUR);<br />
+  int ampm=cal.get(Calendar.AM_PM);<br />
+  int minute=cal.get(Calendar.MINUTE);<br />
+  int second=cal.get(Calendar.SECOND);<br />
+  int year=cal.get(Calendar.YEAR);<br />
+  //int month=cal.get(Calendar.MONTH)+1;<br />
+  int day=cal.get(Calendar.DAY_OF_MONTH);<br />
+  //int dayWeek=cal.get(Calendar.DAY_OF_WEEK)-1;<br />
+  Date nowDate=new Date();<br />
+  String dayWeek=nowDate.toString().substring(0,3);<br />
+  String month=nowDate.toString().substring(4,7);<br />
+  String ap=&quot;&quot;;<br />
+  if(ampm==0){<br />
+  ap=&quot;AM&quot;;<br />
+  }else{<br />
+  ap=&quot;PM&quot;;<br />
+  }<br />
+  g.drawString(hour+&quot;:&quot;+minute/10+minute%10+&quot;:&quot;+second/10+second%10+&quot; &quot;+ap, 10, 60);<br />
+  g.drawString(day+&quot; &quot;+month+&quot; &quot;+year+&quot; &quot;+dayWeek, 10, 80);<br />
+  }<br />
+}</strong></h3>
+<h3><br /> 
+  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</h3>
+<h3>$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ </h3>
+<h1>&nbsp;</h1>
+<h1>
+  <applet code="chapter5a2.class" width="262" height="188">
+  </applet>
+</h1>
+<h1>Anwers 5.4 </h1>
+<h2><strong>import </strong>java.applet.Applet;<br />
+  <strong>import </strong>java.awt.*;<br />
+  <strong>import </strong>java.util.Calendar;<br />
+  <strong>import </strong>java.util.Date;<br />
+  <br />
+  <strong>public class </strong>Assignment5_4 <strong>extends </strong>Applet <strong>implements </strong>Runnable{<br />
+  <strong>protected </strong>Thread clockThread=<strong>null</strong>;<br />
+  <strong>protected </strong>Color color;<br />
+  <strong>protected </strong>Font font;<br />
+  <strong>public </strong><strong>void </strong>init(){<br />
+  String param=getParameter(&quot;color&quot;);<br />
+  String param2=getParameter(&quot;font&quot;);<br />
+  <strong>if</strong>(&quot;red&quot;.equals(param)){<br />
+  color=Color.red;<br />
+  }<strong>else</strong>{<br />
+  color=Color.blue;<br />
+  }<br />
+  <strong>if</strong>(&quot;Monospaced&quot;.equals(param2)){<br />
+  font=<strong>new </strong>Font(&quot;Monospaced&quot;,Font.BOLD, 16); <br />
+  }<strong>else</strong>{ <br />
+  font=<strong>new </strong>Font(&quot;Sans-serif&quot;,Font.BOLD,20);<br />
+  }<br />
+  }<br />
+  <br />
+  <strong>public </strong><strong>void </strong>start(){<br />
+  <strong>if</strong>(clockThread==<strong>null</strong>){<br />
+  clockThread=<strong>new </strong>Thread(<strong>this</strong>);<br />
+  clockThread.start();<br />
+  }<br />
+  }<br />
+  <br />
+  <strong>public </strong><strong>void </strong>stop(){<br />
+  clockThread=<strong>null</strong>;<br />
+  }<br />
+  <br />
+  <strong>public </strong><strong>void </strong>run(){<br />
+  <strong>while</strong>(Thread.currentThread()==clockThread){<br />
+  repaint();<br />
+  <strong>try </strong>{<br />
+  Thread.currentThread().sleep(1000);<br />
+  } <strong>catch </strong>(InterruptedException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  } <br />
+  <strong>public </strong><strong>void </strong>paint(Graphics g){<br />
+  Calendar cal=Calendar.getInstance();<br />
+  <strong>int </strong>hour=cal.get(Calendar.HOUR);<br />
+  <strong>int </strong>ampm=cal.get(Calendar.AM_PM);<br />
+  <strong>int </strong>minute=cal.get(Calendar.MINUTE);<br />
+  <strong>int </strong>second=cal.get(Calendar.SECOND);<br />
+  <strong>int </strong>year=cal.get(Calendar.YEAR);<br />
+  //int month=cal.get(Calendar.MONTH)+1;<br />
+  <strong>int </strong>day=cal.get(Calendar.DAY_OF_MONTH);<br />
+  //int dayWeek=cal.get(Calendar.DAY_OF_WEEK)-1;<br />
+  Date nowDate=<strong>new </strong>Date();<br />
+  String dayWeek=nowDate.toString().substring(0,3);<br />
+  String month=nowDate.toString().substring(4,7);<br />
+  String ap=&quot;&quot;;<br />
+  <strong>if</strong>(ampm==0){<br />
+  ap=&quot;AM&quot;;<br />
+  }<strong>else</strong>{<br />
+  ap=&quot;PM&quot;;<br />
+  }<br />
+  g.setColor(color);<br />
+  g.setFont(font);<br />
+  g.drawString(hour+&quot;:&quot;+minute/10+minute%10+&quot;:&quot;+second/10+second%10+&quot; &quot;+ap, 10, 60);<br />
+  g.drawString(day+&quot; &quot;+month+&quot; &quot;+year+&quot; &quot;+dayWeek, 10, 80);<br />
+  }<br />
+}</h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<h1>Assignment5.2</h1>
+<p>
+  <applet code="BouncingBall.class" width="283" height="298">
+  </applet>
+</p>
+<h3><a href="doc/index.html">Assignment 5.2 Javadoc html</a></h3>
+<h1>Assignment5.3</h1>
+<p>USECASE </p>
+<table border="1">
+  <tbody>
+    <tr>
+      <td>Level:Practice Goal</td>
+    </tr>
+    <tr>
+      <td>Primary Actor:Students</td>
+    </tr>
+    <tr>
+      <td>Pre-conditions:</td>
+    </tr>
+    <tr>
+      <td>Write an applet</td>
+    </tr>
+    <tr>
+      <td>Main Scenario:</td>
+    </tr>
+    <tr>
+      <td>1:display applet's code base</td>
+    </tr>
+    <tr>
+      <td>2:display applet's document base</td>
+    </tr>
+    <tr>
+      <td>Extensions:</td>
+    </tr>
+    <tr>
+      <td>1:network connection is lost</td>
+    </tr>
+    <tr>
+      <td>2:fail to load applet's code base and document base</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  <applet code="assignment5b.class" width="658" height="442">
+  </applet>
+</p>
+<table>
+  <tbody>
+    <tr>
+      <td nowrap="nowrap" valign="top" align="left"><strong>import </strong>java.applet.Applet;<br />
+          <strong>import </strong>java.awt.*;<br />
+        <br />
+        <br />
+        <strong>public class </strong>Assignment5_3 <strong>extends </strong>Applet{<br />
+        <strong>public </strong><strong>void </strong>paint(Graphics g){<br />
+        Dimension d=getSize();<br />
+        g.setColor(Color.PINK);<br />
+        g.fillRect(0, 0, d.width, d.height);<br />
+        g.drawImage(getImage(getCodeBase(),&quot;Tedxnjit.jpg&quot;),0,55,this);<br />
+        g.setFont(<strong>new </strong>Font(&quot;Sans-serif&quot;,Font.BOLD,20));<br />
+        g.setColor(Color.RED);<br />
+        g.drawString(getCodeBase().toString(), 0, 25);<br />
+        g.drawString(getDocumentBase().toString(), 0, 45);<br />
+        }<br />
+      }</td>
+    </tr>
+    <tr>
+      <td><table border="1">
+        <tbody>
+          <tr>
+            <td>Timesheet</td>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td>Time</td>
+            <td>Task</td>
+            <td>Time speed</td>
+          </tr>
+          <tr>
+            <td>Oct-05</td>
+            <td>20:00</td>
+            <td>Read textbook</td>
+            <td>1 hour</td>
+          </tr>
+          <tr>
+            <td>Oct-05</td>
+            <td>21:00</td>
+            <td>Write Assignment5.2 on Eclipse</td>
+            <td>1 hour</td>
+          </tr>
+          <tr>
+            <td>Oct-06</td>
+            <td>14:00</td>
+            <td>Write Assignment5.3 on Eclipse</td>
+            <td>1 hour</td>
+          </tr>
+        </tbody>
+      </table></td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

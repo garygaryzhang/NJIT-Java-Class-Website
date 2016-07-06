@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+.STYLE1 {color: #FFFFFF}
+.STYLE2 {
+	color: #00FF00;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 36px;
+}
+-->
+</style>
+</head>
+
+<body>
+<h1>Assignment 6.2 </h1>
+<p><strong>public interface </strong>Stack{<br />
+  <strong>public </strong><strong>void </strong>push(Object object);<br />
+  <strong>public </strong>Object pop();<br />
+  <strong>public </strong><strong>int </strong>Size();<br />
+  <strong>public </strong>Object top();<br />
+}</p>
+<h1>&nbsp;</h1>
+<h1>Assignment 6.5 </h1>
+<p>
+  <applet code="MyStack.class"  width="716" height="323">
+  </applet>
+</p>
+<p><strong>import </strong>java.applet.Applet;<br />
+  <strong>import </strong>java.awt.*;<br />
+  <strong>import </strong>java.awt.event.ActionEvent;<br />
+  <strong>import </strong>java.awt.event.ActionListener;<br />
+  <strong>import </strong>java.util.ArrayList;<br />
+  <strong>import </strong>java.util.List;<br />
+  <br />
+  <strong>public class </strong>MyStack <strong>extends </strong>Applet <strong>implements </strong>Stack {<br />
+  <br />
+  List&lt;Object&gt; list = <strong>new </strong>ArrayList&lt;Object&gt;();<br />
+      
+  Dimension d;<br />
+  Button sizeButton,pushButton,popButton,topButton;<br />
+  Label label;<br />
+  TextField textField;<br />
+  TextArea textArea;<br />
+  String str;<br />
+  <strong>public </strong><strong>void </strong>init()<br />
+  {<br />
+  d= getSize();<br />
+  label = <strong>new </strong>Label(&quot;Enter an Integer: &quot;);<br />
+  label.setBounds(20,20,100,20);<br />
+  textField?=<strong>new </strong>TextField(30);<br />
+  textField.setBounds(40,40,20,20);<br />
+  sizeButton = <strong>new </strong>Button(&quot;size&quot;);<br />
+  sizeButton.setBounds(20,60,30,20);<br />
+  pushButton = <strong>new </strong>Button(&quot;push&quot;);<br />
+  pushButton.setBounds(60,60,30,20);<br />
+  popButton = <strong>new </strong>Button(&quot;pop&quot;);<br />
+  popButton.setBounds(100,60,30,20);<br />
+  topButton = <strong>new </strong>Button(&quot;top&quot;);<br />
+  topButton.setBounds(140,60,30,20);<br />
+  textArea = <strong>new </strong>TextArea(&quot;Stack Array : &quot;);<br />
+  textArea.setBounds(40,100,20,20);<br />
+  add(label);<br />
+  add(textField);<br />
+  add(sizeButton);<br />
+  add(pushButton);<br />
+  add(popButton);<br />
+  add(topButton);<br />
+  add(textArea);<br />
+  sizeButton.addActionListener(listener);<br />
+  pushButton.addActionListener(listener);<br />
+  popButton.addActionListener(listener);<br />
+  topButton.addActionListener(listener);<br />
+  }<br />
+  <strong>private </strong>ActionListener listener=<strong>new </strong>ActionListener() {<br />
+  @Override<br />
+  <strong>public </strong><strong>void </strong>actionPerformed(ActionEvent e) {<br />
+  Object obj=e.getSource();<br />
+  <strong>if</strong>(obj==pushButton){<br />
+  String text=textField.getText();<br />
+  push(text); <br />
+  textArea.setText(&quot;Stack array: &quot;+list.toString());<br />
+  }<strong>else if</strong>(obj==sizeButton){<br />
+  <strong>if</strong>(list.size()==0){<br />
+  textArea.setText(&quot;The stack is empty&quot;);<br />
+  }<strong>else</strong>{<br />
+  textArea.setText(&quot;The stack size is &quot;+Size());<br />
+  }<br />
+  }<strong>else if</strong>(obj==topButton){<br />
+  <strong>if</strong>(list.size()==0){<br />
+  textArea.setText(&quot;The stack is empty&quot;);<br />
+  }<strong>else</strong>{<br />
+  textArea.setText(&quot;The stack top is &quot;+top());<br />
+  }<br />
+  }<strong>else</strong>{<br />
+  <strong>if</strong>(list.size()==0){<br />
+  textArea.setText(&quot;The stack is empty&quot;);<br />
+  }<strong>else</strong>{<br />
+  textArea.setText(&quot;remove index 0 : &quot;+pop());<br />
+  }<br />
+  }<br />
+  }<br />
+  };</p>
+<h3>&nbsp;</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>JUnit Test </h2>
+<p><strong>import </strong>org.junit.Test;<br />
+  <strong>import </strong>junit.framework.TestCase;<br />
+  <strong>import </strong>junit.framework.TestSuite;<br />
+  <br />
+  <br />
+  <strong>public class </strong>MyStackTest <strong>extends </strong>TestCase {<br />
+  <br />
+  @Test<br />
+  <strong>public static </strong>Test Suite() {<br />
+  <strong>return </strong>(Test) <strong>new </strong>TestSuite(MyStackTest.<strong>class</strong>);<br />
+  }<br />
+  MyStack stack = <strong>new </strong>MyStack();<br />
+  <strong>public </strong><strong>void </strong>testSize() {<br />
+  stack.push(&quot;s&quot;);<br />
+  stack.push(&quot;1&quot;);<br />
+  assertEquals(2,stack.Size());<br />
+  }<br />
+  <strong>public </strong><strong>void </strong>testPush() {<br />
+  stack.push(&quot;5&quot;);<br />
+  stack.push(&quot;4&quot;);<br />
+  stack.push(&quot;3&quot;);<br />
+  assertEquals(3, stack.Size());<br />
+  }<br />
+  <strong>public </strong><strong>void </strong>testPop() {<br />
+  stack.push(&quot;5&quot;);<br />
+  stack.push(&quot;4&quot;);<br />
+  stack.push(&quot;3&quot;);<br />
+  assertEquals(&quot;3&quot;, stack.pop());<br />
+  assertEquals(&quot;4&quot;,stack.pop());<br />
+  }<br />
+  <strong>public </strong><strong>void </strong>testTop() {<br />
+  stack.push(&quot;5&quot;);<br />
+  stack.push(&quot;f&quot;);<br />
+  assertEquals(&quot;f&quot;,stack.top());<br />
+  }<br />
+}</p>
+ <p><img src="Junit.jpg" width="574" height="514" /></p>
+ <p>&nbsp;</p>
+ <h2 class="STYLE2">Time Sheet </h2>
+ <table width="877" height="285" border="1" background="plant.jpg">
+   <tr>
+     <td width="190"><div align="center">
+       <h1 class="STYLE1">Date</h1>
+     </div></td>
+     <td width="218"><h1 align="center" class="STYLE1">Time</h1></td>
+     <td width="238"><div align="center">
+       <h1 class="STYLE1">Task</h1>
+     </div></td>
+     <td width="203"><div align="center">
+       <h1 class="STYLE1">Time Spent</h1>
+     </div></td>
+   </tr>
+   <tr>
+     <td><div align="center">
+       <h1 class="STYLE1"> 13 Oct 2014 </h1>
+     </div></td>
+     <td> <div align="center">
+       <h1 class="STYLE1">9:00 AM  </h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">Read Textbook </h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">3 hours </h1>
+     </div></td>
+   </tr>
+   <tr>
+     <td><h1 align="center" class="STYLE1"> 13 Oct 2014</h1></td>
+     <td><h1 align="center" class="STYLE1">2:00 PM </h1></td>
+     <td><div align="center">
+       <h1 class="STYLE1">Plan Code </h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">2 hours </h1>
+     </div></td>
+   </tr>
+   <tr>
+     <td><h1 align="center" class="STYLE1">14 Oct 2014</h1></td>
+     <td><h1 align="center" class="STYLE1">9:00 AM </h1></td>
+     <td><div align="center">
+       <h1 class="STYLE1">Write Code</h1>
+     </div></td>
+     <td><h1 align="center" class="STYLE1">4 hours </h1></td>
+   </tr>
+   <tr>
+     <td><div align="center">
+       <h1 class="STYLE1">14 Oct 2014</h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">2:00 PM </h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">Install, Test the Code and Junit </h1>
+     </div></td>
+     <td><div align="center">
+       <h1 class="STYLE1">1 hour </h1>
+     </div></td>
+   </tr>
+</table>
+ <p>&nbsp;</p>
+ <p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>midterm</title>
+</head>
+
+<body>
+<h1 align="center">Midterm</h1>
+<h1 align="left">Planing Documents:</h1>
+<p align="left">User Case: Simulate a Microwave Oven</p>
+<p align="left">Founction explanation: click the number button to input the time you want cook.</p>
+<p align="left">The time you input is second.</p>
+<p align="left">When the microwave stop working, the &quot;Food is read&quot; will display on the screen.</p>
+<p align="left">When the microwave is working, the light is Green.</p>
+<p align="left">When the microwave is not working, the light is Red. </p>
+<p align="left">&nbsp;</p>
+<h1 align="left">PLease go to harp.njit.edu/~cz284/cs602/midterm/midterm.html</h1>
+<p align="left">This link can run all my functions!!! Thanks professor! </p>
+<h1 align="left">Applet:</h1>
+<p align="center">
+  <applet code="midterm.class" width="905" height="686">
+  </applet>
+</p>
+<p align="left">&nbsp;</p>
+<h1 align="left">Code:</h1>
+<p>import java.awt.*;<br />
+  import java.awt.event.ActionEvent;<br />
+  import java.awt.event.ActionListener;<br />
+  import java.applet.Applet;<br />
+  import java.applet.AudioClip;<br />
+  import java.util.ArrayList;<br />
+  import java.util.List;<br />
+  import java.util.Calendar;<br />
+import java.util.Date;</p>
+<p>import javax.swing.JLabel;<br />
+  import javax.swing.JPanel;</p>
+<p>public class midterm extends Applet implements Runnable{<br />
+  List&lt;Object&gt; list = new ArrayList&lt;Object&gt;();<br />
+  <br />
+  Dimension d;<br />
+  Button Button9,Button8,Button7,Button6,Button5,Button4,Button3,Button2,Button1,Button0,<br />
+  Buttonstart;<br />
+  Label label;<br />
+  JPanel panel = new JPanel();<br />
+  TextField tf = new TextField();<br />
+  Date date = new Date();<br />
+  DigitalClock dc = new DigitalClock();<br />
+  String timer = &quot;&quot;;<br />
+  int counter;<br />
+  boolean flag = false;<br />
+  boolean foodFlag = false;<br />
+  <br />
+  <br />
+  private ActionListener listener = new ActionListener(){<br />
+  <br />
+  @Override<br />
+  public void actionPerformed(ActionEvent e){<br />
+  <br />
+  Object obj=e.getSource();<br />
+  if(obj == Button1){<br />
+  timer += &quot;1&quot;;<br />
+  <br />
+  }<br />
+  else if(obj == Button2){<br />
+  timer += &quot;2&quot;;<br />
+  }<br />
+  else if(obj == Button3){<br />
+  timer += &quot;3&quot;;<br />
+  }<br />
+  else if(obj == Button4){<br />
+  timer += &quot;4&quot;;<br />
+  }<br />
+  else if(obj == Button5){<br />
+  timer += &quot;5&quot;;<br />
+  }<br />
+  else if(obj == Button6){<br />
+  timer += &quot;6&quot;;<br />
+  }<br />
+  else if(obj == Button7){<br />
+  timer += &quot;7&quot;;<br />
+  }<br />
+  else if(obj == Button8){<br />
+  timer += &quot;8&quot;;<br />
+  }<br />
+  else if(obj == Button9){<br />
+  timer += &quot;9&quot;;<br />
+  }<br />
+  else if(obj == Button0){<br />
+  timer += &quot;0&quot;;<br />
+  }else{<br />
+  flag = true;<br />
+  counter = Integer.parseInt(timer);<br />
+  }<br />
+  <br />
+  }<br />
+  <br />
+  };<br />
+  <br />
+  String str;<br />
+  protected Thread clockThread=null;<br />
+  public void paint(Graphics g) {<br />
+  setPreferredSize(new Dimension(1200,800));<br />
+  Dimension d=getSize();<br />
+  g.setColor(Color.WHITE);<br />
+  g.fillRect(0, 0, d.width, d.height);<br />
+  g.setFont(new Font(&quot;Sans-serif&quot;,Font.BOLD,30));<br />
+  g.setColor(Color.BLACK); <br />
+  g.drawImage(getImage(getCodeBase(),&quot;./microwave.jpg&quot;),0,30,this);<br />
+  d= getSize();<br />
+  <br />
+  g.setColor(Color.red);<br />
+  if(flag){<br />
+  g.setColor(Color.green);<br />
+  }<br />
+  g.drawOval(660,400,15,15);<br />
+  g.fillOval(660,400,15,15);<br />
+  } <br />
+  <br />
+  public void init()<br />
+  {<br />
+  this.setLayout(null);<br />
+  setPreferredSize(new Dimension(1200,800));<br />
+  d= getSize();<br />
+  Button9 = new Button(&quot;9&quot;);<br />
+  Button9.setBounds(660,300,20,20);<br />
+  Button8 = new Button(&quot;8&quot;);<br />
+  Button8.setBounds(685,300,20,20);<br />
+  Button7 = new Button(&quot;7&quot;);<br />
+  Button7.setBounds(710,300,20,20);<br />
+  Button6 = new Button(&quot;6&quot;);<br />
+  Button6.setBounds(660,325,20,20);<br />
+  Button5 = new Button(&quot;5&quot;);<br />
+  Button5.setBounds(685,325,20,20);<br />
+  Button4 = new Button(&quot;4&quot;);<br />
+  Button4.setBounds(710,325,20,20);<br />
+  Button3 = new Button(&quot;3&quot;);<br />
+  Button3.setBounds(660,350,20,20);<br />
+  Button2 = new Button(&quot;2&quot;);<br />
+  Button2.setBounds(685,350,20,20);<br />
+  Button1 = new Button(&quot;1&quot;);<br />
+  Button1.setBounds(710,350,20,20);<br />
+  Button0 = new Button(&quot;0&quot;);<br />
+  Button0.setBounds(660,375,20,20);<br />
+  Buttonstart = new Button(&quot;START&quot;);<br />
+  Buttonstart.setBounds(685,375,50,20);<br />
+  panel.setBounds(650,160,100,100);<br />
+  <br />
+  <br />
+  add(Button9);<br />
+  add(Button8);<br />
+  add(Button7);<br />
+  add(Button6);<br />
+  add(Button5);<br />
+  add(Button4);<br />
+  add(Button3);<br />
+  add(Button2);<br />
+  add(Button1);<br />
+  add(Button0);<br />
+  add(Buttonstart);<br />
+  <br />
+  Button9.addActionListener(listener);<br />
+  Button8.addActionListener(listener);<br />
+  Button7.addActionListener(listener);<br />
+  Button6.addActionListener(listener);<br />
+  Button5.addActionListener(listener);<br />
+  Button4.addActionListener(listener);<br />
+  Button3.addActionListener(listener);<br />
+  Button2.addActionListener(listener);<br />
+  Button1.addActionListener(listener);<br />
+  Button0.addActionListener(listener);<br />
+  Buttonstart.addActionListener(listener);<br />
+  <br />
+  this.run();<br />
+  }<br />
+  <br />
+  public void start(){<br />
+  <br />
+  AudioClip audio;<br />
+  audio=getAudioClip(getDocumentBase(),&quot;TICKTOCK.WAV&quot;);<br />
+  if(clockThread==null){<br />
+  clockThread=new Thread(this);<br />
+  clockThread.start();<br />
+  }<br />
+  }</p>
+<p> public void stop(){<br />
+  clockThread=null;<br />
+  }</p>
+<p> public void run(){<br />
+  AudioClip audio;<br />
+  audio=getAudioClip(getDocumentBase(),&quot;TICKTOCK.WAV&quot;);<br />
+  String displayNum = String.valueOf(counter);<br />
+  <br />
+  label = new Label(displayNum);<br />
+  label.setText(displayNum);<br />
+  label.setBounds(650,160,100,100);<br />
+  label.setBackground(Color.WHITE);<br />
+  label.setForeground(Color.ORANGE);<br />
+  <br />
+  while(Thread.currentThread()==clockThread){<br />
+  dc.setBounds(650,160,100,100);<br />
+  this.add(dc);<br />
+  <br />
+  <br />
+  if(counter&gt;0){<br />
+  audio.play();<br />
+  dc.setVisible(false);<br />
+  displayNum = String.valueOf(counter);<br />
+  <br />
+  <br />
+  <br />
+  label.setText( &quot;&quot;+counter--);<br />
+  this.add(label);<br />
+  if(counter == 0){<br />
+  foodFlag = true;<br />
+  <br />
+  <br />
+  }<br />
+  <br />
+  }<br />
+  <br />
+  if(counter == 0 &amp;&amp; foodFlag == true){<br />
+  String food =&quot;&quot;;<br />
+  food = &quot;Food is ready&quot;;<br />
+  label = new Label(food);<br />
+  label.setBounds(650,120,100,50);<br />
+  label.setBackground(Color.WHITE);<br />
+  this.add(label);<br />
+  }<br />
+  try {<br />
+  Thread.currentThread().sleep(1000);<br />
+  } catch (InterruptedException e) {<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  }</p>
+<p>&nbsp;</p>
+<p> }<br />
+</p>
+<p><br />
+</p>
+<h3 align="left">Digital Clock:</h3>
+<p>import java.applet.Applet;<br />
+  import java.awt.*;<br />
+  import java.util.Calendar;<br />
+  import java.util.Date;</p>
+<p>public class DigitalClock extends Applet implements Runnable{<br />
+  protected Thread clockThread=null;</p>
+<p>public void start(){<br />
+  if(clockThread==null){<br />
+  clockThread=new Thread(this);<br />
+  clockThread.start();<br />
+  }<br />
+  }</p>
+<p>public void stop(){<br />
+  clockThread=null;<br />
+  }</p>
+<p>public void run(){<br />
+  while(Thread.currentThread()==clockThread){<br />
+  repaint();<br />
+  try {<br />
+  Thread.currentThread().sleep(1000);<br />
+  } catch (InterruptedException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  }</p>
+<p>public void paint(Graphics g){<br />
+  Calendar cal=Calendar.getInstance();<br />
+  int hour=cal.get(Calendar.HOUR);<br />
+  int ampm=cal.get(Calendar.AM_PM);<br />
+  int minute=cal.get(Calendar.MINUTE);<br />
+  int second=cal.get(Calendar.SECOND);<br />
+  int year=cal.get(Calendar.YEAR);<br />
+  //int month=cal.get(Calendar.MONTH)+1;<br />
+  int day=cal.get(Calendar.DAY_OF_MONTH);<br />
+  //int dayWeek=cal.get(Calendar.DAY_OF_WEEK)-1;<br />
+  Date nowDate=new Date();<br />
+  String dayWeek=nowDate.toString().substring(0,3);<br />
+  String month=nowDate.toString().substring(4,7);<br />
+  String ap=&quot;&quot;;<br />
+  if(ampm==0){<br />
+  ap=&quot;AM&quot;;<br />
+  }else{<br />
+  ap=&quot;PM&quot;;<br />
+  }<br />
+  g.drawString(hour+&quot;:&quot;+minute/10+minute%10+&quot;:&quot;+second/10+second%10+&quot; &quot;+ap, 10, 60);<br />
+  //g.drawString(day+&quot; &quot;+month+&quot; &quot;+year+&quot; &quot;+dayWeek, 10, 80);<br />
+  }<br />
+  }</p>
+<p></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+</body>
+
+</html>

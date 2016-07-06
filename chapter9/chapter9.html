@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>chapter9</title>
+<style type="text/css">
+<!--
+.STYLE1 {font-family: Arial, Helvetica, sans-serif}
+.STYLE2 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body>
+<h1>Assignment 9</h1>
+<h2>&nbsp;</h2>
+<h2><strong>Planning Documents</strong>:</h2>
+<h3 class="STYLE1">User Case: Enhanced Drawing Pad<br />
+  Primary Actor: user draw some basic shapes or write text.<br />
+  Precondition: The user has access to the server in which the drawing pad application is stored.<br />
+  Main Success Scenario:<br />
+  clicking on the link<br />
+  The user can execute the following operations from the main menu at the top:<br />
+  File – Save the current drawing or to load an drawing previously saved<br />
+  Tools – Shows the shapes that the user can draw on the drawing pad.<br />
+  Option – Allow the user to select the color and font characteristics to be used in the drawing pad.<br />
+  The user can select the following drawing options from the tool bar:<br />
+  When the user select one shape to draw, the system sets the drawing shape to the selected shape and remains until the user select another shape.<br />
+  The user stop the applet by closing the applet</h3>
+<h1>&nbsp;</h1>
+<h1>Time Sheet:</h1>
+<table width="976" height="367" border="1" background="plant.jpg">
+  <tr>
+    <td width="180" height="98"><div align="center">
+      <h1 class="STYLE2">Date</h1>
+    </div></td>
+    <td width="152"><h1 align="center" class="STYLE2">Time</h1></td>
+    <td width="454"><div align="center">
+      <h1 class="STYLE2">Task</h1>
+    </div></td>
+    <td width="162"><div align="center">
+      <h1 class="STYLE2">Time Spent (hrs) </h1>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h1 class="STYLE2">9-Nov-2014</h1>
+    </div></td>
+    <td><h1 align="center" class="STYLE2">9:00 AM </h1></td>
+    <td><div align="center">
+      <h1 class="STYLE2">Read Text and Lecture </h1>
+    </div></td>
+    <td><div align="center">
+      <h1 class="STYLE2">2.0</h1>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h1 class="STYLE2">9-Nov-2014</h1>
+    </div></td>
+    <td><div align="center">
+      <h1 class="STYLE2">2:00 PM </h1>
+    </div></td>
+    <td><h1 align="center" class="STYLE2">Plan code </h1></td>
+    <td><h1 align="center" class="STYLE2">4.0</h1></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h1 class="STYLE2">10-Nov-2014</h1>
+    </div></td>
+    <td><div align="center">
+      <h1 class="STYLE2">9:00 AM </h1>
+    </div></td>
+    <td><h1 align="center" class="STYLE2">Write HTML and Applet container </h1></td>
+    <td><div align="center">
+      <h1 class="STYLE2">2.0</h1>
+    </div></td>
+  </tr>
+  <tr>
+    <td><div align="center">
+      <h1 class="STYLE2">10-Nov-2014</h1>
+    </div></td>
+    <td><div align="center">
+      <h1 class="STYLE2">3:00 PM </h1>
+    </div></td>
+    <td><h1 align="center" class="STYLE2">Install and test code </h1></td>
+    <td><h1 align="center" class="STYLE2">4.0</h1></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h1>Code: (Due to that orignal code is too much, I only list the modified code.) </h1>
+<h3>Draw2 Eraser</h3>
+<p>package draw2; </p>
+<p>import java.awt.*; </p>
+<p>import scribble3.BackGroundColor; <br />
+  import draw1.*; </p>
+<p>public class Eraser extends RectangleShape { </p>
+<p> public void draw(Graphics g) { <br />
+  int x = Math.min(x1, x2); <br />
+  int y = Math.min(y1, y2); <br />
+  int w = Math.abs(x1 - x2) + 1; <br />
+  int h = Math.abs(y1 - y2) + 1; <br />
+  <br />
+  BackGroundColor bgColor = new BackGroundColor(); //New <br />
+  g.setColor(bgColor.getColor()); <br />
+  g.fillRect(x, y, w, h); <br />
+  } </p>
+<p>} </p>
+<p>&nbsp;</p>
+<h3>Draw2 Drawing Pad <br />
+</h3>
+<p>package draw2; </p>
+<p>import java.awt.*; <br />
+  import java.awt.event.*; <br />
+  import java.io.*; <br />
+  import javax.swing.*; <br />
+  import scribble3.*; <br />
+  import draw1.*; </p>
+<p>public class DrawingPad extends draw1.DrawingPad { </p>
+<p> public DrawingPad(String title) { <br />
+  super(title); <br />
+  } </p>
+<p> protected void initTools() { <br />
+  toolkit = new ToolKit(); <br />
+  toolkit.addTool(new ScribbleTool(canvas, &quot;Scribble&quot;)); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Line&quot;, new LineShape())); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Oval&quot;, new OvalShape())); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Rect&quot;, new RectangleShape())); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Filled Oval&quot;, new FilledOvalShape())); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Filled Rect&quot;, new FilledRectangleShape())); <br />
+  toolkit.addTool(new TwoEndsShapeTool(canvas, &quot;Eraser&quot;, new Eraser())); //New <br />
+  <br />
+  drawingCanvas.setTool(toolkit.getTool(0)); <br />
+  } </p>
+<p> public static void main(String[] args) { <br />
+  JFrame frame = new draw2.DrawingPad(&quot;Drawing Pad&quot;); <br />
+  frame.setSize(width, height); <br />
+  Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); <br />
+  frame.setLocation(screenSize.width/2 - width/2, <br />
+  screenSize.height/2 - height/2); <br />
+  frame.show(); <br />
+  } </p>
+<p>}</p>
+<p>&nbsp;</p>
+<h3>Draw2 TwoEndsShape</h3>
+<p>package draw2; </p>
+<p>import java.awt.*; <br />
+  import scribble3.*; <br />
+  import draw1.*; </p>
+<p>public class TwoEndsShapeTool extends AbstractTool { </p>
+<p> public TwoEndsShapeTool(ScribbleCanvas canvas, String name, TwoEndsShape prototype) { <br />
+  super(canvas, name); <br />
+  this.prototype = prototype; <br />
+  } </p>
+<p> public void startShape(Point p) { <br />
+  if (prototype != null) { <br />
+  canvas.mouseButtonDown = true; <br />
+  xStart = canvas.x = p.x; <br />
+  yStart = canvas.y = p.y; <br />
+  Graphics g = canvas.getGraphics(); <br />
+  g.setXORMode(Color.darkGray); <br />
+  g.setColor(Color.lightGray); <br />
+  prototype.drawOutline(g, xStart, yStart, xStart, yStart); <br />
+  } <br />
+  } </p>
+<p> public void addPointToShape(Point p) { <br />
+  if (prototype != null &amp;&amp; <br />
+  canvas.mouseButtonDown) { <br />
+  Graphics g = canvas.getGraphics(); <br />
+  g.setXORMode(Color.darkGray); <br />
+  g.setColor(Color.lightGray); <br />
+  prototype.drawOutline(g, xStart, yStart, canvas.x, canvas.y); <br />
+  prototype.drawOutline(g, xStart, yStart, p.x, p.y); <br />
+  } <br />
+  } </p>
+<p> public void endShape(Point p) { <br />
+  canvas.mouseButtonDown = false; <br />
+  if (prototype != null) { <br />
+  try { <br />
+  TwoEndsShape newShape = (TwoEndsShape) prototype.clone(); <br />
+  newShape.setColor(canvas.getCurrentColor()); <br />
+  newShape.setEnds(xStart, yStart, p.x, p.y); <br />
+  canvas.addShape(newShape); <br />
+  } catch (CloneNotSupportedException e) {} <br />
+  Graphics g = canvas.getGraphics(); <br />
+  g.setPaintMode(); <br />
+  canvas.repaint(); <br />
+  } <br />
+  } <br />
+  <br />
+  <br />
+  public TwoEndsShape getShape(){ </p>
+<p> return prototype; </p>
+<p> } </p>
+<p> protected int xStart, yStart; <br />
+  protected TwoEndsShape prototype; </p>
+<p>} </p>
+<p>&nbsp;</p>
+<h3>scribble3 scribblecanvas</h3>
+<p>package scribble3; </p>
+<p>import java.awt.Color; <br />
+  import java.awt.Dimension; <br />
+  import java.awt.Graphics; <br />
+  import java.awt.Point; <br />
+  import java.util.*; <br />
+  import java.io.*; <br />
+  import java.awt.event.*; <br />
+  import java.util.EventListener; <br />
+  import javax.swing.*; </p>
+<p>public class ScribbleCanvas extends JPanel { </p>
+<p> public ScribbleCanvas() { <br />
+  // calling factory method <br />
+  listener = makeCanvasListener(); <br />
+  addMouseListener((MouseListener) listener); <br />
+  addMouseMotionListener((MouseMotionListener) listener); <br />
+  } </p>
+<p> public void setCurrentColor(Color curColor) { <br />
+  this.curColor = curColor; <br />
+  } </p>
+<p> public Color getCurrentColor() { <br />
+  return curColor; <br />
+  } </p>
+<p> public void addShape(Shape shape) { <br />
+  if (shape != null) { <br />
+  shapes.add(shape); <br />
+  } <br />
+  } </p>
+<p> public void paint(Graphics g) { <br />
+  Dimension d = getSize(); </p>
+<p> //Background color <br />
+  BackGroundColor bgColor = new BackGroundColor(); <br />
+  g.setColor(bgColor.getColor()); </p>
+<p> g.fillRect(0, 0, d.width, d.height); <br />
+  g.setColor(Color.black); <br />
+  if (shapes != null) { <br />
+  Iterator iter = shapes.iterator(); <br />
+  while (iter.hasNext()) { <br />
+  Shape shape = (Shape) iter.next(); <br />
+  if (shape != null) { <br />
+  shape.draw(g); <br />
+  } <br />
+  } <br />
+  } <br />
+  } </p>
+<p> public void newFile() { <br />
+  shapes.clear(); <br />
+  repaint(); <br />
+  } </p>
+<p> public void openFile(String filename) { <br />
+  try { <br />
+  ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename)); <br />
+  shapes = (List) in.readObject(); <br />
+  in.close(); <br />
+  repaint(); <br />
+  } catch (IOException e1) { <br />
+  System.out.println(&quot;Unable to open file: &quot; + filename); <br />
+  } catch (ClassNotFoundException e2) { <br />
+  System.out.println(e2); <br />
+  } <br />
+  } </p>
+<p> public void saveFile(String filename) { <br />
+  try { <br />
+  ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename)); <br />
+  out.writeObject(shapes); <br />
+  out.close(); <br />
+  System.out.println(&quot;Save drawing to&quot; + filename); <br />
+  } catch (IOException e) { <br />
+  System.out.println(&quot;Unable to write file: &quot; + filename); <br />
+  } <br />
+  } </p>
+<p> // factory method <br />
+  protected EventListener makeCanvasListener() { <br />
+  return new ScribbleCanvasListener(this); <br />
+  } </p>
+<p> protected List shapes = new ArrayList(); </p>
+<p> protected Color curColor = Color.black; </p>
+<p> protected EventListener listener; </p>
+<p> public boolean mouseButtonDown = false; <br />
+  public int x, y; </p>
+<p>} </p>
+<p>&nbsp;</p>
+<h3> Scribble3 Scribble</h3>
+<p><br />
+package scribble3; </p>
+<p> import java.awt.*; <br />
+  import java.awt.event.*; <br />
+  import java.io.*; <br />
+  import javax.swing.*; </p>
+<p> public class Scribble extends JFrame { </p>
+<p> public Scribble(String title) { <br />
+  super(title); <br />
+  // calling factory method <br />
+  canvas = makeCanvas(); <br />
+  getContentPane().setLayout(new BorderLayout()); <br />
+  menuBar = createMenuBar(); <br />
+  getContentPane().add(menuBar, BorderLayout.NORTH); <br />
+  getContentPane().add(canvas, BorderLayout.CENTER); <br />
+  addWindowListener(new WindowAdapter() { <br />
+  public void windowClosing(WindowEvent e) { <br />
+  if (exitAction != null) { <br />
+  exitAction.actionPerformed(new ActionEvent(Scribble.this, 0, null)); <br />
+  } <br />
+  } <br />
+  }); <br />
+  } </p>
+<p> protected JMenuBar createMenuBar() { <br />
+  JMenuBar menuBar = new JMenuBar(); <br />
+  JMenu menu; <br />
+  JMenuItem mi; </p>
+<p> // File menu <br />
+  menu = new JMenu(&quot;File&quot;); <br />
+  menuBar.add(menu); </p>
+<p> mi = new JMenuItem(&quot;New&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new NewFileListener()); </p>
+<p> mi = new JMenuItem(&quot;Open&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new OpenFileListener()); </p>
+<p> mi = new JMenuItem(&quot;Save&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new SaveFileListener()); </p>
+<p> mi = new JMenuItem(&quot;Save As&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new SaveAsFileListener()); </p>
+<p> menu.add(new JSeparator()); </p>
+<p> exitAction = new ExitListener(); <br />
+  mi = new JMenuItem(&quot;Exit&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(exitAction); </p>
+<p> // option menu <br />
+  menu = new JMenu(&quot;Option&quot;); <br />
+  menuBar.add(menu); </p>
+<p> mi = new JMenuItem(&quot;Color&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new ColorListener()); </p>
+<p> //New menu item - Background Color </p>
+<p> mi = new JMenuItem(&quot;Background Colo&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new BgColorListener()); </p>
+<p> menuBar.add(Box.createHorizontalGlue()); </p>
+<p> // Help menu <br />
+  menu = new JMenu(&quot;Help&quot;); <br />
+  menuBar.add(menu); </p>
+<p> mi = new JMenuItem(&quot;About&quot;); <br />
+  menu.add(mi); <br />
+  mi.addActionListener(new AboutListener()); </p>
+<p> return menuBar; <br />
+  } </p>
+<p> // factory method <br />
+  protected ScribbleCanvas makeCanvas() { <br />
+  return new ScribbleCanvas(); <br />
+  } </p>
+<p> protected void newFile() { <br />
+  currentFilename = null; <br />
+  canvas.newFile(); <br />
+  setTitle(&quot;Scribble Pad&quot;); <br />
+  } </p>
+<p> protected void openFile(String filename) { <br />
+  currentFilename = filename; <br />
+  canvas.openFile(filename); <br />
+  setTitle(&quot;Scribble Pad [&quot; + currentFilename + &quot;]&quot;); <br />
+  } </p>
+<p> protected void saveFile() { <br />
+  if (currentFilename == null) { <br />
+  currentFilename = &quot;Untitled&quot;; <br />
+  } <br />
+  canvas.saveFile(currentFilename); <br />
+  setTitle(&quot;Scribble Pad [&quot; + currentFilename + &quot;]&quot;); <br />
+  } </p>
+<p> protected void saveFileAs(String filename) { <br />
+  currentFilename = filename; <br />
+  canvas.saveFile(filename); <br />
+  setTitle(&quot;Scribble Pad [&quot; + currentFilename + &quot;]&quot;); <br />
+  } </p>
+<p> class NewFileListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  newFile(); <br />
+  } </p>
+<p> } </p>
+<p> class OpenFileListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  int retval = chooser.showDialog(null, &quot;Open&quot;); <br />
+  if (retval == JFileChooser.APPROVE_OPTION) { <br />
+  File theFile = chooser.getSelectedFile(); <br />
+  if (theFile != null) { <br />
+  if (theFile.isFile()) { <br />
+  String filename = chooser.getSelectedFile().getAbsolutePath(); <br />
+  openFile(filename); <br />
+  } <br />
+  } <br />
+  } <br />
+  } </p>
+<p> } </p>
+<p> class SaveFileListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  saveFile(); <br />
+  } </p>
+<p> } </p>
+<p> class SaveAsFileListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  int retval = chooser.showDialog(null, &quot;Save As&quot;); <br />
+  if (retval == JFileChooser.APPROVE_OPTION) { <br />
+  File theFile = chooser.getSelectedFile(); <br />
+  if (theFile != null) { <br />
+  if (!theFile.isDirectory()) { <br />
+  String filename = chooser.getSelectedFile().getAbsolutePath(); <br />
+  saveFileAs(filename); <br />
+  } <br />
+  } <br />
+  } <br />
+  } </p>
+<p> } </p>
+<p> class ExitListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  int result = JOptionPane.showConfirmDialog(null, <br />
+  &quot;Do you want to exit Scribble Pad?&quot;, <br />
+  &quot;Exit Scribble Pad?&quot;, <br />
+  JOptionPane.YES_NO_OPTION); <br />
+  if (result == JOptionPane.YES_OPTION) { <br />
+  saveFile(); <br />
+  System.exit(0); <br />
+  } <br />
+  } </p>
+<p> } </p>
+<p> class ColorListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  Color result = dialog.showDialog(); <br />
+  if (result != null) { <br />
+  canvas.setCurrentColor(result); <br />
+  } <br />
+  } </p>
+<p> protected ColorDialog dialog = <br />
+  new ColorDialog(Scribble.this, &quot;Choose a color&quot;, canvas.getCurrentColor()); </p>
+<p> } <br />
+</p>
+<p> //New action listener for Background color selection </p>
+<p> class BgColorListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  Color c = dialog.showDialog(); <br />
+  if (c != null) { </p>
+<p> BackGroundColor bgColor = new BackGroundColor(); <br />
+  bgColor.setColor( c); <br />
+  repaint(); <br />
+  } <br />
+  } </p>
+<p> protected ColorDialog dialog = <br />
+  new ColorDialog(Scribble.this, &quot;Choose color&quot;, canvas.getCurrentColor()); </p>
+<p> } </p>
+<p> class AboutListener implements ActionListener { </p>
+<p> public void actionPerformed(ActionEvent e) { <br />
+  JOptionPane.showMessageDialog(null, <br />
+  &quot;DrawingPad version 1.0\\nCopyright (c) Xiaoping Jia 2002&quot;, &quot;About&quot;, <br />
+  JOptionPane.INFORMATION_MESSAGE); <br />
+  } </p>
+<p> } </p>
+<p> protected ScribbleCanvas canvas; <br />
+  protected JMenuBar menuBar; </p>
+<p> protected String currentFilename = null; <br />
+  protected ActionListener exitAction; <br />
+  protected JFileChooser chooser = new JFileChooser(&quot;.&quot;); </p>
+<p> public static void main(String[] args) { <br />
+  JFrame frame = new Scribble(&quot;Scribble Pad&quot;); <br />
+  frame.setSize(width, height); <br />
+  Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); <br />
+  frame.setLocation(screenSize.width/2 - width/2, <br />
+  screenSize.height/2 - height/2); <br />
+  frame.setVisible(true); <br />
+  } </p>
+<p> protected static int width = 500; <br />
+  protected static int height = 500; </p>
+<p> }</p>
+<p>}</p>
+<p>&nbsp;</p>
+<h1>Applets:</h1>
+<p>&nbsp;</p>
+<p>
+  <applet archive="DrawingPad.jar" code="DrawingPad" codebase="http://web.njit.edu/~cz284/cs602/chapter9" width="657" height="603">
+          </applet>
+</p>
+<p>&nbsp;</p>
+<h2>Screen Shoot: </h2>
+<p><img src="jietu.jpg" width="643" height="538" /></p>
+<h2>&nbsp;</h2>
+<h2>JUnit test:</h2>
+<p><img src="3.jpg" width="736" height="492" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>&nbsp;</h1>
+<h2><br />
+</h2>
+</body>
+
+
+
+
+
+
+
+
+
+</html>

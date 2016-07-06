@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>final</title>
+</head>
+
+<body>
+
+<h1 align="center">602 Final </h1>
+<h1 align="center">Lunar Lander Game</h1>
+<h1 align="left">&nbsp;</h1>
+<h1 align="left">Planning Documents :</h1>
+<p align="center"><img src="planning.jpg" width="887" height="532" /></p>
+<h1>Codes:</h1>
+<h2>Sprite1.java</h2>
+<p>import java.awt.geom.AffineTransform;<br />
+  import java.awt.image.BufferedImage;<br />
+  import java.awt.*;<br />
+  import java.awt.event.MouseListener;<br />
+  import java.awt.event.MouseEvent;<br />
+  import java.awt.event.KeyListener;<br />
+  import java.awt.event.KeyEvent;<br />
+  import java.io.File;<br />
+import java.io.IOException;</p>
+<p>import javax.imageio.ImageIO;</p>
+<p>public class Sprite1 extends java.applet.Applet implements <br />
+  MouseListener, KeyListener, Runnable{<br />
+  boolean md;<br />
+  int k=0;<br />
+  boolean keyIsDown [] = new boolean[KeyEvent.KEY_LAST];<br />
+  public void mousePressed(MouseEvent e) {md=true;}<br />
+  public void mouseReleased(MouseEvent e){md=false;}<br />
+  public void mouseEntered(MouseEvent e) { }<br />
+  public void mouseExited(MouseEvent e) { }<br />
+  public void keyTyped(KeyEvent e) { }<br />
+  public void keyPressed(KeyEvent e){keyIsDown[e.getKeyCode()]=true;}<br />
+  public void keyReleased(KeyEvent e){keyIsDown[e.getKeyCode()]=false;}<br />
+  int frame;<br />
+  int delay;<br />
+  Thread animator=null;</p>
+<p> Dimension offDimension;<br />
+  Image offImage;<br />
+  Graphics2D offGraphics;<br />
+  Sprite s;<br />
+  Button startButton;<br />
+  <br />
+  private Image img = null;<br />
+  private Pilot p1 = new Pilot(20, 400);<br />
+  private Pilot p2 = new Pilot(60, 300);<br />
+  private Pilot p3 = new Pilot(100, 350);<br />
+  private Pilot p4 = new Pilot(400, 450);<br />
+  <br />
+  <br />
+  <br />
+  public void init() {<br />
+  this.setSize(900, 500);<br />
+  img = this.getImage(this.getCodeBase(),&quot;./background.jpg&quot;);<br />
+  String str = getParameter(&quot;fps&quot;);<br />
+  int fps = (str != null) ? Integer.parseInt(str) : 10;<br />
+  delay = (fps &gt; 0) ? (1000 / fps) : 100;<br />
+  //setLayout(new FlowLayout());<br />
+  startButton = new java.awt.Button(&quot;Click Here To Start&quot;);<br />
+  add(startButton);<br />
+  startButton.addMouseListener(this);<br />
+  }</p>
+<p> public void mouseClicked(MouseEvent e) {<br />
+  //The user cannot control unless the applet has focus.<br />
+  //We need a &quot;click to start&quot;<br />
+  if (s==null){<br />
+  s = new Sprite();<br />
+  animator = new Thread(this);<br />
+  animator.start();<br />
+  remove(startButton);<br />
+  this.requestFocus();<br />
+  }<br />
+  }</p>
+<p> public void start() {<br />
+  Graphics g = this.getGraphics();<br />
+  g.setColor(Color.black);<br />
+  g.drawString(&quot;Click to start...&quot;,20,20);<br />
+  g.fillRect(50,50,20,20);<br />
+  addMouseListener(this);<br />
+  addKeyListener(this);<br />
+  }</p>
+<p> public void run() {<br />
+  // Remember the starting time<br />
+  long tm = System.currentTimeMillis();<br />
+  while (Thread.currentThread() == animator) {<br />
+  // Display the next frame of animation.<br />
+  this.repaint();</p>
+<p> // Delay depending on how far we are behind.<br />
+  try {<br />
+  tm += delay;<br />
+  Thread.sleep(Math.max(0, tm - System.currentTimeMillis()));<br />
+  } catch (InterruptedException e) {<br />
+  break;<br />
+  }</p>
+<p> // Advance the frame<br />
+  frame++;<br />
+  if(this.s != null){<br />
+  s.tick(keyIsDown);<br />
+  } <br />
+  }<br />
+  }</p>
+<p> public void stop() {<br />
+  animator = null;<br />
+  offImage = null;<br />
+  offGraphics = null;<br />
+  this.s = null;<br />
+  }</p>
+<p> /**<br />
+  * Update a frame of animation.<br />
+  */<br />
+  public void update(Graphics g) {<br />
+  Dimension d = size();<br />
+  g.drawImage(img,0, 0, (int)getBounds().getWidth(), (int)getBounds().getHeight(), this);<br />
+  if (animator==null){<br />
+  g.setColor(Color.black);<br />
+  g.drawString(&quot;Click here to start.&quot;,10,30);<br />
+  return;<br />
+  }<br />
+  // Create the offscreen graphics context<br />
+  if ((offGraphics == null) || (d.width != offDimension.width) || (d.height != offDimension.height)) {<br />
+  offDimension = d;<br />
+  offImage = createImage(d.width, d.height);<br />
+  offGraphics = (Graphics2D)offImage.getGraphics();<br />
+  }</p>
+<p> // Erase the previous image<br />
+  offGraphics.setColor(getBackground());<br />
+  offGraphics.drawImage(img,0, 0, (int)getBounds().getWidth(), (int)getBounds().getHeight(), this);<br />
+  offGraphics.setColor(Color.black);</p>
+<p> // Paint the frame into the image<br />
+  AffineTransform tmp = offGraphics.getTransform();<br />
+  s.paintFrame(offGraphics,keyIsDown);<br />
+  p1.paint(offGraphics);<br />
+  p2.paint(offGraphics);<br />
+  p3.paint(offGraphics);<br />
+  p4.paint(offGraphics);<br />
+  offGraphics.setTransform(tmp);<br />
+  // Paint the image onto the screen<br />
+  g.drawImage(offImage, 0, 0, null);<br />
+  if(this.s.isCrashed()){<br />
+  this.stop();<br />
+  }<br />
+  }</p>
+<p> public void paint(Graphics g) {<br />
+  this.update(g);<br />
+  }<br />
+  }</p>
+<h2>&nbsp;</h2>
+<h2>Sprite.java</h2>
+<p><br />
+  import java.applet.Applet;<br />
+  import java.applet.AudioClip;<br />
+  import java.awt.Color;<br />
+  import java.awt.Graphics;<br />
+  import java.awt.Graphics2D;<br />
+  import java.awt.Image;<br />
+  import java.awt.event.KeyEvent;<br />
+  import java.awt.image.BufferedImage;<br />
+  import java.io.File;<br />
+  import java.io.IOException;<br />
+  import java.net.MalformedURLException;<br />
+import java.net.URL;</p>
+<p>import javax.imageio.ImageIO;</p>
+<p>public class Sprite{<br />
+  int yv=0;<br />
+  int y=0;<br />
+  int x=500;<br />
+  int fuel = 50;<br />
+  boolean crashed=false;<br />
+  <br />
+  public boolean isCrashed() {<br />
+  return crashed;<br />
+  }<br />
+  public void setCrashed(boolean crashed) {<br />
+  this.crashed = crashed;<br />
+  }</p>
+<p>private BufferedImage img = null;<br />
+  private BufferedImage img1 = null;<br />
+  <br />
+  public Sprite(){<br />
+  try {<br />
+  img = ImageIO.read((new File(&quot;./sprite.jpg&quot;)));<br />
+  img1 = ImageIO.read((new File(&quot;./fire.jpg&quot;)));<br />
+  } catch (IOException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  public void tick(boolean[] kid){<br />
+  <br />
+  if (crashed){<br />
+  return;<br />
+  }<br />
+  <br />
+  yv++;<br />
+  if (kid[KeyEvent.VK_UP] &amp;&amp; fuel&gt;0){<br />
+  yv-=2;<br />
+  fuel--;<br />
+  <br />
+  }<br />
+  if (kid[KeyEvent.VK_LEFT] &amp;&amp; fuel&gt;0){<br />
+  x-=5;<br />
+  }<br />
+  if (kid[KeyEvent.VK_RIGHT] &amp;&amp; fuel&gt;0){<br />
+  x+=5;<br />
+  }<br />
+  y+=yv;<br />
+  if (y&gt;380){<br />
+  crashed = true;<br />
+  }<br />
+  }</p>
+<p> public void paintFrame(Graphics2D g,boolean[]kid) {<br />
+  g.setColor(Color.WHITE);<br />
+  g.drawString(&quot;Fuel: &quot;+fuel,50,20);<br />
+  g.drawString(&quot;Speed: &quot;+yv,50,30);<br />
+  if (!crashed){<br />
+  g.drawImage(img,x, y, null);<br />
+  if (kid[KeyEvent.VK_UP] &amp;&amp; fuel&gt;0){<br />
+  g.drawImage(img1,x+2, y+img.getHeight(), null);<br />
+  }<br />
+  <br />
+  }else{ <br />
+  if (yv&gt;5){<br />
+  g.drawString(&quot;You crashed :(&quot;,50,40);<br />
+  URL cb = null; <br />
+  File f = new File(&quot;./CRASH4.WAV&quot;);<br />
+  try {<br />
+  cb = f.toURL();<br />
+  } catch (MalformedURLException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  } <br />
+  AudioClip aau; <br />
+  aau = Applet.newAudioClip(cb); <br />
+  aau.play();<br />
+  }<br />
+  else<br />
+  g.drawString(&quot;Good landing!&quot;,50,40);<br />
+  }<br />
+  }<br />
+  }</p>
+<p>&nbsp;</p>
+<h2>Pilot.java</h2>
+<p>import java.awt.Color;<br />
+  import java.awt.Graphics2D;<br />
+  import java.awt.image.BufferedImage;<br />
+  import java.io.File;<br />
+import java.io.IOException;</p>
+<p>import javax.imageio.ImageIO;</p>
+<p>public class Pilot implements Runnable{<br />
+  private int x;<br />
+  private int y;<br />
+  private BufferedImage  bf = null;<br />
+  private Thread tr = new Thread(this);<br />
+  private String Director;<br />
+  <br />
+  public Pilot(int _x, int _y){ <br />
+  this.x = _x;<br />
+  this.y = _y;<br />
+  this.Director = &quot;left&quot;;<br />
+  try {<br />
+  <br />
+  this.bf = ImageIO.read((new File(&quot;./pilot.jpg&quot;)));<br />
+  } catch (IOException e) {<br />
+  // TODO Auto-generated catch block<br />
+  e.printStackTrace();<br />
+  }<br />
+  tr.start();<br />
+  }</p>
+<p> @Override<br />
+  public void run() {<br />
+  while(true){<br />
+  try{<br />
+  if(this.Director == &quot;right&quot;){<br />
+  this.x += 30;<br />
+  if(this.x &gt;= 870){<br />
+  this.Director = &quot;left&quot;;<br />
+  }<br />
+  }else{<br />
+  this.x -= 30;<br />
+  if(this.x &lt;= 30){<br />
+  this.Director = &quot;right&quot;;<br />
+  }<br />
+  }<br />
+  tr.sleep(200);<br />
+  }catch(Exception e){<br />
+  e.printStackTrace();<br />
+  }<br />
+  }<br />
+  }<br />
+  <br />
+  public void paint(Graphics2D g){<br />
+  g.setColor(Color.BLACK);<br />
+  g.drawImage(this.bf,x, y, null);<br />
+  }<br />
+  }<br />
+</p>
+<h1>&nbsp;</h1>
+<h1>Applet : </h1>
+<p>
+  <applet archive="final.jar" code="Sprite1.class" codebase="http://web.njit.edu/~cz284/cs602/final" width="937" height="653">
+     </applet>
+</p>
+  <h2>I'm so sorry the applet on website even there is no wrong on my program. I signed my jar.file. I uploaded all my files include pictures, music and class, jar files in SSH. I really don't know why there is only a button can show on the web. So here are some screen shoots to show my applet works good on my computer. </h2>
+  <p><img src="7.jpg" width="216" height="107" /></p>
+  <h1>Screen Shots : </h1>
+  <h2>1.Main Frame </h2>
+  <p><img src="1.jpg" width="514" height="480" /></p>
+  <h2>2. When you start the game, you click the UP button on keyboard. The flame comes out from </h2>
+  <h2>the bottom of the space ship, also the fuel keep losing. As you can see the astronauts are keep walking in the lunar suface. </h2>
+  <p><img src="2.jpg" width="916" height="581" /></p>
+  <h2>3.When you don't click anything on the keyboard. There will be nothing but the space ship keep falling. </h2>
+  <p><img src="3.jpg" width="916" height="581" /></p>
+  <h2>4. You can use Left and Right on the keyboard to change the position of the ship. </h2>
+  <p><img src="4.jpg" width="915" height="582" /></p>
+  <h2>5. That's the look when your landing speed more than 5. You crashed and you can hear the</h2>
+  <h2>crash sound, too bad I can't show here. </h2>
+  <p><img src="5.jpg" width="916" height="581" /></p>
+  <h2>6.That's what my applet looks like when you have a good landing. Only happens when the </h2>
+  <h2>landing speed is less than 5.  </h2>
+  <p><img src="6.jpg" width="914" height="575" /></p>
+  <p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+</body>
+</html>
